@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Tour – Christ Nation Group of Schools</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Karla:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ===== RESET & VARIABLES ===== */
+    :root{
+      --green:#12503A; --green-deep:#0A2E20; --green-dark:#071E15;
+      --brass:#C9A54E; --brass-lite:#DFC282;
+      --chalk:#F7F5EF; --white:#fff;
+      --ink:#16211D;
+      --rule:rgba(22,33,29,.13);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--chalk);color:var(--ink);font-family:'Karla',system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    h1,h2,h3,h4{font-family:'Zilla Slab',Georgia,serif;font-weight:600;line-height:1.13;margin:0}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+    @media(max-width:820px){.wrap{padding:0 20px}}
+
+    /* ===== TOP BAR ===== */
+    .topbar{background:var(--green-dark);color:rgba(247,245,239,.8);font-size:13px}
+    .topbar .wrap{display:flex;gap:22px;align-items:center;height:38px}
+    .topbar .sp{margin-left:auto}
+    .topbar a{opacity:.85;transition:.2s}
+    .topbar a:hover{color:var(--brass)}
+    @media(max-width:820px){.topbar{display:none}}
+
+    /* ===== MASTHEAD ===== */
+    .masthead{background:var(--green);color:var(--chalk);position:sticky;top:0;z-index:60}
+    .masthead .wrap{display:flex;align-items:center;gap:26px;height:82px}
+    .crest{display:flex;align-items:center;gap:12px;margin-right:auto}
+    .crest img{width:46px;height:48px;object-fit:contain;flex:none}
+    .crest b{font-family:'Zilla Slab',serif;font-size:17.5px;font-weight:600;display:block;line-height:1.15}
+    .crest i{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity: 1; font-weight: 700;font-style:normal}
+
+    .nav{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+    .nav > li{position:relative}
+    .nav > li > a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;padding:30px 13px;letter-spacing:.01em}
+    .nav > li > a:hover{color:var(--brass-lite)}
+    .nav .car{width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7}
+
+    .mega{position:absolute;top:100%;left:-14px;background:var(--white);color:var(--ink);min-width:250px;padding:22px 24px;border-top:3px solid var(--brass);box-shadow:0 22px 48px rgba(7,30,21,.2);opacity:0;visibility:hidden;transform:translateY(-7px);transition:.17s ease;z-index:70}
+    .nav li:hover .mega,.nav li:focus-within .mega{opacity:1;visibility:visible;transform:translateY(0)}
+    .mega.two{min-width:480px;display:grid;grid-template-columns:1fr 1fr;gap:8px 30px}
+    .mega h5{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);opacity:.65;margin:0 0 9px;font-weight:500}
+    .mega a{display:block;font-size:14.5px;padding:6px 0;border-bottom:1px solid transparent}
+    .mega a:hover{color:var(--green);border-bottom-color:var(--brass)}
+    .mega hr{border:none;border-top:1px solid var(--rule);margin:12px 0}
+
+    .applybtn{background:var(--brass);color:var(--green-dark);font-weight:700;font-size:14px;padding:12px 20px;border-radius:2px;white-space:nowrap;transition:.18s}
+    .applybtn:hover{background:var(--brass-lite)}
+    .burger{display:none;background:none;border:1.5px solid rgba(247,245,239,.35);color:var(--chalk);padding:9px 13px;border-radius:2px;font:inherit;font-size:13px;cursor:pointer}
+    @media(max-width:1150px){.nav{display:none}.burger{display:block}}
+
+    /* ===== MOBILE SIDE MENU ===== */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80}
+    .mobile-overlay.active{display:block}
+    .mobile-menu{position:fixed;top:0;right:-320px;width:300px;height:100%;background:var(--green-deep);color:var(--chalk);padding:24px 20px;overflow-y:auto;z-index:90;transition:right .3s ease;box-shadow:-8px 0 30px rgba(0,0,0,.3)}
+    .mobile-menu.open{right:0}
+    .mobile-menu .close-btn{background:none;border:none;color:var(--chalk);font-size:28px;float:right;cursor:pointer}
+    .mobile-menu .mob-crest{margin-bottom:30px}
+    .mobile-menu .mob-crest b{font-family:'Zilla Slab',serif;font-size:18px;display:block;text-transform:uppercase}
+    .mobile-menu .mob-crest i{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+    .mobile-menu a{display:block;padding:14px 0;border-bottom:1px solid rgba(247,245,239,.08);font-size:15px;font-weight:500}
+    .mobile-menu a:hover{color:var(--brass-lite)}
+    .mobile-menu .sub{padding-left:20px;font-size:14px;opacity:.7;border-bottom:none}
+    .mobile-menu .sub:last-child{border-bottom:none}
+    .mobile-menu .apply-mobile{background:var(--brass);color:var(--green-dark);padding:14px;border-radius:2px;text-align:center;font-weight:700;margin-top:16px;border-bottom:none}
+
+    /* ===== HERO ===== */
+    .hero{background:var(--green-deep);color:var(--chalk);position:relative;overflow:hidden;padding:80px 0}
+    .hero::after{content:"";position:absolute;right:-14%;top:-24%;width:62%;height:150%;border-radius:50%;border:1px solid rgba(201,165,78,.16)}
+    .hero .wrap{position:relative;z-index:2}
+    .eyebrow{display:flex;align-items:center;gap:13px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-bottom:24px}
+    .eyebrow::before{content:"";width:40px;height:1.5px;background:var(--brass)}
+    .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);letter-spacing:-.025em;max-width:15ch}
+    .hero h1 em{font-style:italic;color:var(--brass);font-weight:500}
+    .hero p.lede{font-size:19px;max-width:52ch;margin:26px 0 36px;opacity:.85}
+    .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;padding:15px 26px;border-radius:2px;border:1.5px solid transparent;transition:.18s;cursor:pointer}
+    .btn-gold{background:var(--brass);color:var(--green-dark);border-color:var(--brass)}
+    .btn-gold:hover{background:var(--brass-lite);border-color:var(--brass-lite)}
+    .btn-out{background:rgba(247,245,239,.06);color:var(--chalk);border-color:rgba(247,245,239,.3)}
+    .btn-out:hover{background:rgba(247,245,239,.14)}
+    .btn-green{background:var(--green);color:var(--chalk);border-color:var(--green)}
+    .btn-green:hover{background:var(--green-deep);border-color:var(--green-deep)}
+
+    /* ===== SECTION BASE ===== */
+    section{padding:80px 0}
+    .sec-head{max-width:60ch;margin-bottom:46px}
+    .sec-head h2{font-size:clamp(1.95rem,3.6vw,2.85rem);letter-spacing:-.02em}
+    .sec-head p{margin:15px 0 0;opacity:.78}
+    .center{margin-left:auto;margin-right:auto;text-align:center}
+
+    /* ===== VIRTUAL TOUR GRID ===== */
+    .tour-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:20px}
+    .tour-item{background:var(--white);border:1px solid var(--rule);border-radius:8px;overflow:hidden;transition:.2s}
+    .tour-item:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
+    .tour-item .img{aspect-ratio:16/9;background:var(--green-deep);display:grid;place-items:center;color:rgba(247,245,239,.3);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:20px;text-align:center}
+    .tour-item .img a{display:block;width:100%;height:100%;display:grid;place-items:center;color:rgba(247,245,239,.3);text-decoration:none}
+    .tour-item .img a i{font-size:36px;display:block;margin-bottom:8px;color:var(--brass)}
+    .tour-item .desc{padding:24px}
+    .tour-item .desc h3{font-size:20px;color:var(--green);margin-bottom:8px}
+    .tour-item .desc p{font-size:15px;opacity:.8;margin:0;line-height:1.7}
+    @media(max-width:900px){.tour-grid{grid-template-columns:1fr}}
+
+    /* ===== 360 VIRTUAL TOUR SPOT ===== */
+    .virtual-spot{background:var(--green);color:var(--chalk);padding:60px 0;text-align:center}
+    .virtual-spot .wrap{max-width:1000px}
+    .virtual-spot h2{font-size:clamp(2rem,3.5vw,2.8rem);color:var(--chalk);margin-bottom:16px}
+    .virtual-spot .sub-text{opacity:.85;margin-bottom:30px;font-size:17px}
+
+    .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:10px}
+    .video-wrapper{position:relative;width:100%;border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.3);background:var(--green-deep)}
+    .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
+    .video-container video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border:none;display:block}
+    .video-label{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;padding:8px 20px;border-radius:30px;font-size:14px;font-weight:600;z-index:5;backdrop-filter:blur(4px);white-space:nowrap;border:1px solid rgba(255,255,255,.15)}
+    .video-label i{margin-right:8px;color:var(--brass)}
+
+    @media(max-width:768px){.video-grid{grid-template-columns:1fr;gap:20px}.video-label{font-size:12px;padding:6px 14px;bottom:12px}}
+
+    /* ===== CONTACT / ENQUIRY ===== */
+    .enquire{background:var(--white);border-top:1px solid var(--rule);padding:80px 0}
+    .enq-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px}
+    .field{margin-bottom:18px}
+    .field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+    .field input,.field textarea,.field select{width:100%;padding:13px;border:1px solid var(--rule);border-radius:2px;font-family:'Karla',sans-serif;font-size:15.5px;background:var(--chalk);color:var(--ink)}
+    .field textarea{min-height:120px;resize:vertical}
+    .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--green);outline:none;box-shadow:0 0 0 3px rgba(18,80,58,.1)}
+    .contact-line{display:flex;gap:12px;padding:15px 0;border-bottom:1px solid var(--rule);font-size:15.5px}
+    .contact-line b{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.55;width:78px;flex:none;padding-top:4px}
+    .form-feedback{display:none;padding:16px;background:var(--green);color:var(--chalk);border-radius:4px;margin-top:18px;text-align:center}
+    .form-feedback.show{display:block}
+    @media(max-width:900px){.enq-grid{grid-template-columns:1fr;gap:40px}}
+
+    /* ===== FOOTER ===== */
+    footer{background:var(--green-dark);color:var(--chalk);padding:64px 0 34px}
+    .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:38px;padding-bottom:38px;border-bottom:1px solid rgba(247,245,239,.15)}
+    .foot-grid h4{font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:15px;font-weight:400}
+    .foot-grid a{display:block;font-size:14.5px;opacity:.85;padding:5px 0}
+    .foot-grid a:hover{color:var(--brass)}
+    .foot-bottom{padding-top:24px;font-size:13px;opacity:.6;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+  
+    /* ===== FIXES: header spacing, photo slots, avatars ===== */
+    .crest span{display:flex;flex-direction:column;gap:3px;min-width:0}
+    .crest b{line-height:1.1;white-space:nowrap}
+    .crest i{display:block;line-height:1.1;white-space:nowrap}
+    @media(max-width:520px){
+      .masthead .wrap{gap:8px;padding:0 14px}
+      .crest{gap:8px;min-width:0}
+      .crest img{width:38px;height:40px}
+      .crest b{font-size:14px}
+      .crest i{font-size:7.5px;letter-spacing:.1em}
+      .applybtn{font-size:12px;padding:10px 11px}
+      .applybtn i{display:none}
+      .burger{padding:8px 10px;font-size:12px;white-space:nowrap}
+    }
+    .ph-box{padding:0 !important;position:relative;overflow:hidden}
+    a.ph{position:relative}
+    a.ph>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:2;border-radius:inherit}
+    .lead-card .avatar{position:relative;overflow:hidden;flex:none}
+    .lead-card .avatar>i{font-size:34px;color:rgba(247,245,239,.35)}
+    .lead-card .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;border-radius:50%}
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="topbar">
+    <div class="wrap">
+      <span>Lagos &amp; Ogun State, Nigeria</span>
+      <span class="sp"></span>
+      <a href="results.html"><i class="fa-regular fa-square-check"></i> Check Results</a>
+      <a href="e-learning.html"><i class="fa-solid fa-book"></i> E-Learning</a>
+      <a href="contact.html"><i class="fa-solid fa-phone"></i> +234 905 668 8102</a>
+    </div>
+  </div>
+
+  <!-- ===== MASTHEAD ===== -->
+  <header class="masthead">
+    <div class="wrap">
+      <a class="crest" href="index.html">
+        <img src="images/logo.png" alt="Christ Nation Group of Schools logo" width="46" height="48">
+        <span style="text-transform:uppercase;"><b>Christ Nation</b><i>Group of Schools</i></span>
+      </a>
+
+      <ul class="nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about_us.html">About <span class="car"></span></a>
+          <div class="mega">
+            <a href="our-mission.html">Our Mission</a>
+            <a href="virtual-tour.html" style="color:var(--brass);">Virtual Tour</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="history.html">History</a>
+          </div>
+        </li>
+        <li><a href="programs.html">Programs <span class="car"></span></a>
+          <div class="mega">
+            <a href="nursery.html">Nursery Programme</a>
+            <a href="primary.html">Primary Programme</a>
+            <a href="secondary.html">Secondary Programme</a>
+            <a href="vocational.html">Vocational Training</a>
+          </div>
+        </li>
+        <li><a href="admission.html">Admissions <span class="car"></span></a>
+          <div class="mega">
+            <a href="admissions-process.html">Admission Process</a>
+            <a href="admissions-faqs.html">FAQs</a>
+            <hr>
+            <a href="apply-online.html"><b>Apply Online</b></a>
+            <a href="prospectus.html">Download Prospectus</a>
+            <a href="schedule-a-tour.html">Arrange a Visit</a>
+          </div>
+        </li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a class="applybtn" href="apply-online.html"><i class="fa-regular fa-pen-to-square"></i> Apply Online</a>
+      <button class="burger" id="burgerBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i> Menu</button>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE OVERLAY & SIDE MENU ===== -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenuBtn"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-crest">
+      <b>Christ Nation</b>
+      <i>Group of Schools</i>
+    </div>
+    <a href="index.html">Home</a>
+    <a href="about_us.html">About</a>
+    <a href="our-mission.html" class="sub">Our Mission</a>
+    <a href="virtual-tour.html" class="sub" style="color:var(--brass);">Virtual Tour</a>
+    <a href="testimonials.html" class="sub">Testimonials</a>
+    <a href="history.html" class="sub">History</a>
+    <a href="programs.html">Programs</a>
+    <a href="nursery.html" class="sub">Nursery Programme</a>
+    <a href="primary.html" class="sub">Primary Programme</a>
+    <a href="secondary.html" class="sub">Secondary Programme</a>
+    <a href="vocational.html" class="sub">Vocational Training</a>
+    <a href="admission.html">Admissions</a>
+    <a href="admissions-process.html" class="sub">Admission Process</a>
+    <a href="admissions-faqs.html" class="sub">FAQs</a>
+    <a href="apply-online.html" class="sub">Apply Online</a>
+    <a href="prospectus.html" class="sub">Prospectus</a>
+    <a href="schedule-a-tour.html" class="sub">Arrange a Visit</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+    <a href="apply-online.html" class="apply-mobile"><i class="fa-regular fa-pen-to-square"></i> Apply Online</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><i class="fa-regular fa-compass"></i> Virtual Tour</p>
+      <h1>Explore <em>Christ Nation</em></h1>
+      <p class="lede">Walk through our campuses, classrooms, and facilities — all from the comfort of your home.</p>
+      <a class="btn btn-gold" href="#tour"><i class="fa-solid fa-arrow-down"></i> Start Tour</a>
+    </div>
+  </div>
+
+  <!-- ===== INTRODUCTION ===== -->
+  <section style="background:var(--white);padding:60px 0;">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Welcome to Our <span style="color:var(--brass);">Virtual Tour</span></h2>
+        <p>Academic excellence is achieved when students and teachers share a love of learning. Extending beyond the curriculum, we explore each subject in richness and depth. The same dedication is also brought to music, sports, cultural activities and the arts. Our education is self-motivated, rounded and encourages a culture of curiosity and exploration.</p>
+      </div>
+      <p style="text-align:center;max-width:700px;margin:0 auto;opacity:.8;font-size:16px;">We invite you to take a glimpse into the daily life at Christ Nation Group of Schools. From our modern classrooms to our vibrant cultural festivals, every space and activity is designed to nurture excellence, character, and faith.</p>
+    </div>
+  </section>
+
+  <!-- ===== VIRTUAL TOUR GRID ===== -->
+  <section id="tour" style="background:var(--chalk);padding:60px 0;">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Campus <span style="color:var(--brass);">Highlights</span></h2>
+        <p>Take a closer look at the spaces and activities where your child will learn, grow, and thrive.</p>
+      </div>
+      <div class="tour-grid">
+
+        <!-- 1. Classroom -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/classroom.jpg" class="ph" target="_blank">
+              <img src="https://example.com/classroom.jpg" alt="Classroom" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-chalkboard"></i> Classroom
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Classroom</h3>
+            <p>Our classrooms are equipped with smart boards, projectors, and ergonomic furniture to facilitate interactive learning. Each classroom is air‑conditioned and designed to enhance concentration and participation. We maintain a low student‑to‑teacher ratio so every child receives individual attention. The learning environment is vibrant, colourful, and filled with educational materials that inspire curiosity.</p>
+          </div>
+        </div>
+
+        <!-- 2. Library -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/library.jpg" class="ph" target="_blank">
+              <img src="https://example.com/library.jpg" alt="Library" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-book"></i> Library
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Library</h3>
+            <p>Our well‑stocked library contains thousands of books, periodicals, and digital resources. It is a quiet haven for reading, research, and homework, encouraging a lifelong love for learning. The library is staffed by professional librarians who guide students in their research and recommend age‑appropriate materials. We also have an e‑library section with computers and tablets for digital research.</p>
+          </div>
+        </div>
+
+        <!-- 3. Computer / ICT Lab -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/ictlab.jpg" class="ph" target="_blank">
+              <img src="https://example.com/ictlab.jpg" alt="Computer / ICT Lab" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-laptop"></i> Computer / ICT Lab
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Computer / ICT Lab</h3>
+            <p>Our ICT lab is equipped with 40 high‑performance laptops, fast WiFi, and a range of educational software. Students learn coding, digital literacy, and research skills, preparing them for the technological world. The lab is used for computer science classes, project work, and online examinations. It also serves as a hub for robotics and innovation clubs, where students create and experiment with technology.</p>
+          </div>
+        </div>
+
+        <!-- 4. Sport Arena -->
+        <div class="tour-item">
+          <div class="img">
+            <a href="" target="_blank">
+              <i class="fa-regular fa-futbol"></i> Sport Arena
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Sport Arena</h3>
+            <p>Our expansive sport arena features a full‑size football pitch, basketball courts, tennis courts, and a multi‑purpose indoor sports hall. We believe physical education is essential for developing teamwork, discipline, and resilience. Students participate in regular PE classes, inter‑house competitions, and external tournaments. The arena also hosts school events and community gatherings, making it the heart of our sporting life.</p>
+          </div>
+        </div>
+
+        <!-- 5. Assembly Hall -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/assembly.jpg" class="ph" target="_blank">
+              <img src="https://example.com/assembly.jpg" alt="Assembly Hall" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-users"></i> Assembly Hall
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Assembly Hall</h3>
+            <p>The assembly hall is the heart of our school community. Daily assemblies, morning prayers, and special events are held here, fostering a sense of unity and spiritual growth among students. It is where we share announcements, celebrate achievements, and reinforce our core values. The hall is equipped with modern audio‑visual systems to support performances and presentations.</p>
+          </div>
+        </div>
+
+        <!-- 6. Yoruba Day -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://files.catbox.moe/txblaw.jpg" class="ph" target="_blank">
+              <img src="https://files.catbox.moe/txblaw.jpg" alt="Yoruba Day" loading="lazy" onerror="this.remove()"><i class="fa-regular fa-flag"></i> Yoruba Day
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Yoruba Day</h3>
+            <p>Yoruba Day is one of our most vibrant cultural celebrations. Students dress in traditional attire, participate in cultural performances, and learn about Yoruba history, language, and customs. The day includes traditional dance competitions, drumming, poetry recitals, and storytelling sessions. It is a beautiful way to connect our students with their heritage and foster pride in their cultural identity.</p>
+          </div>
+        </div>
+
+        <!-- 7. Culinary Arts / Cooking Activities -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/cooking.jpg" class="ph" target="_blank">
+              <img src="https://example.com/cooking.jpg" alt="Culinary Arts" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-utensils"></i> Culinary Arts
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Culinary Arts &amp; Cooking Activities</h3>
+            <p>Our culinary arts programme teaches students practical life skills through cooking and food preparation. Students learn to prepare traditional Nigerian dishes, international cuisines, and healthy meals. The cooking sessions promote teamwork, creativity, and an understanding of nutrition. It's also a wonderful opportunity for students to discover a passion for hospitality and catering careers.</p>
+          </div>
+        </div>
+
+        <!-- 8. Inter-House Sports -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://files.catbox.moe/f2mtkq.jpg" class="ph" target="_blank">
+              <img src="https://files.catbox.moe/f2mtkq.jpg" alt="Inter-House Sports" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-trophy"></i> Inter-House Sports
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Inter-House Sports</h3>
+            <p>Inter‑House Sports is one of the most anticipated events on our school calendar. Students compete in various athletic events, including track and field, football, basketball, and relay races. The competition fosters school spirit, teamwork, and healthy rivalry. It is also a platform for discovering and nurturing sporting talents. Parents and staff come together to cheer on the students, making it a true community celebration.</p>
+          </div>
+        </div>
+
+        <!-- 9. Music & Drama -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/music-drama.jpg" class="ph" target="_blank">
+              <img src="https://example.com/music-drama.jpg" alt="Music &amp; Drama" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-music"></i> Music &amp; Drama
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Music &amp; Drama</h3>
+            <p>Our music and drama programme nurtures creativity and self‑expression. Students learn to play instruments, sing in the choir, and participate in dramatic performances. We stage annual productions, talent shows, and cultural performances that showcase the artistic talents of our students. Participation in music and drama builds confidence, public speaking skills, and a lifelong appreciation for the arts.</p>
+          </div>
+        </div>
+
+        <!-- 10. Science Lab -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/science-lab.jpg" class="ph" target="_blank">
+              <img src="https://example.com/science-lab.jpg" alt="Science Lab" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-flask"></i> Science Lab
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Science Lab</h3>
+            <p>Our fully equipped science laboratories allow students to explore biology, chemistry, and physics through hands‑on experiments. The labs feature modern equipment, safety apparatus, and dedicated workspaces for individual and group projects. Students develop critical thinking, observation, and analytical skills that prepare them for future studies in the sciences.</p>
+          </div>
+        </div>
+
+        <!-- 11. Dining Hall -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/dining.jpg" class="ph" target="_blank">
+              <img src="https://example.com/dining.jpg" alt="Dining Hall" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-utensils"></i> Dining Hall
+            </a>
+          </div>
+          <div class="desc">
+            <h3>Dining Hall</h3>
+            <p>Our dining hall provides nutritious and balanced meals in a clean, welcoming environment. We cater to diverse dietary needs and encourage healthy eating habits. The dining experience is also a time for students to build social skills and friendships in a relaxed setting.</p>
+          </div>
+        </div>
+
+        <!-- 12. School Garden / Outdoor Learning -->
+        <div class="tour-item">
+          <div class="ph-box img">
+            <a href="https://example.com/garden.jpg" class="ph" target="_blank">
+              <img src="https://example.com/garden.jpg" alt="School Garden" loading="lazy" onerror="this.remove()"><i class="fa-solid fa-seedling"></i> School Garden
+            </a>
+          </div>
+          <div class="desc">
+            <h3>School Garden &amp; Outdoor Learning</h3>
+            <p>Our school garden is a living classroom where students learn about agriculture, sustainability, and the environment. Children plant, nurture, and harvest vegetables and flowers, gaining practical knowledge about where food comes from. The garden also serves as a peaceful space for outdoor lessons, nature observation, and environmental education.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 360° VIRTUAL TOUR SPOT WITH TWO VIDEOS ===== -->
+  <section class="virtual-spot">
+    <div class="wrap">
+      <h2><i class="fa-solid fa-vr-cardboard" style="color:var(--brass);"></i> 360° Virtual Tour</h2>
+      <p class="sub-text">Experience our campus in immersive 360° view. Below are previews of our beautiful facilities and vibrant school life.</p>
+
+      <div class="video-grid">
+
+        <!-- Video 1: School Environment -->
+        <div class="video-wrapper">
+          <div class="video-container">
+            <!-- REPLACE THE src URL BELOW WITH YOUR CATBOX MP4 URL FOR SCHOOL ENVIRONMENT -->
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              poster="https://i.ibb.co/your-poster-image.jpg">
+              <source src="https://files.catbox.moe/a7gzqv.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-label"><i class="fa-regular fa-building"></i> School Environment</div>
+        </div>
+
+        <!-- Video 2: School Activities -->
+        <div class="video-wrapper">
+          <div class="video-container">
+            <!-- REPLACE THE src URL BELOW WITH YOUR CATBOX MP4 URL FOR SCHOOL ACTIVITIES -->
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              poster="https://i.ibb.co/your-poster-image.jpg">
+              <source src="https://files.catbox.moe/your-activities-video.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="video-label"><i class="fa-solid fa-children"></i> School Activities</div>
+        </div>
+
+      </div>
+
+      <p style="margin-top:30px;font-size:14px;opacity:.7;">A glimpse into life at Christ Nation — where excellence, character, and faith come together.</p>
+    </div>
+  </section>
+
+  <!-- ===== WHY VISIT US ===== -->
+  <section style="background:var(--white);padding:60px 0;">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Why <span style="color:var(--brass);">Visit Us?</span></h2>
+        <p>See for yourself what makes Christ Nation the right choice for your child.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;">
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Personalised Learning</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">An average teacher-to-pupil ratio of 1:15 ensures that every learner receives individual attention, guidance, and support.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Proven Results</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Consistent 95%+ pass rate in WAEC/NECO exams with outstanding university placements.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Faith &amp; Character</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Moral and spiritual development woven into daily school life, building strong character.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT / ENQUIRY ===== -->
+  <section class="enquire" id="enquire">
+    <div class="wrap enq-grid">
+      <div>
+        <div style="margin-bottom:26px">
+          <h2 style="font-size:clamp(1.9rem,3.4vw,2.6rem)">Ask us anything</h2>
+          <p style="opacity:.8">Enquiries are answered within one working day. To apply, book a visit — we do not admit a child we have not met.</p>
+        </div>
+        <div class="contact-line"><b>Laderin</b><span>Christ Nation Nursery &amp; Primary / College — Laderin, Ogun State</span></div>
+        <div class="contact-line"><b>Agbajege</b><span>Christ Nation College — Agbajege, Ogun State</span></div>
+        <div class="contact-line"><b>Asipa</b><span>Christ Nation Nursery &amp; Primary — Asipa, Ogun State</span></div>
+        <div class="contact-line"><b>Phone</b><span><a href="tel:+2349056688102">+234 905 668 8102</a> | <a href="tel:+2348160697118">081 606 97118</a></span></div>
+        <div class="contact-line"><b>Email</b><span><a href="mailto:christnationgroupofschool1@gmail.com">christnationgroupofschool1@gmail.com</a></span></div>
+        <div class="contact-line"><b>Office</b><span>Monday to Friday, 8:00 – 16:00</span></div>
+        <div class="contact-line"><b>Supervisor</b><span>Dr. Timmy Wigwe, Executive Director</span></div>
+      </div>
+      <div>
+        <form id="enquiryForm">
+          <div class="field"><label for="pname"><i class="fa-regular fa-user"></i> Your name</label><input id="pname" type="text" placeholder="Parent or guardian" required></div>
+          <div class="field"><label for="pemail"><i class="fa-regular fa-envelope"></i> Email address</label><input id="pemail" type="email" placeholder="you@example.com" required></div>
+          <div class="field"><label for="pphone"><i class="fa-solid fa-phone"></i> Phone number</label><input id="pphone" type="tel" placeholder="+234 905 668 8102" required></div>
+          <div class="field"><label for="pcampus"><i class="fa-solid fa-location-dot"></i> Campus you are asking about</label>
+            <select id="pcampus">
+              <option>Christ Nation Nursery &amp; Primary — Laderin</option>
+              <option>Christ Nation College — Laderin</option>
+              <option>Christ Nation College — Agbajege</option>
+              <option>Christ Nation Nursery &amp; Primary — Asipa</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label for="pmsg"><i class="fa-regular fa-comment"></i> Your question</label><textarea id="pmsg" placeholder="Ask about fees, visits, or anything else." required></textarea></div>
+          <button type="submit" class="btn btn-green" style="width:100%;justify-content:center;"><i class="fa-regular fa-paper-plane"></i> Send Enquiry</button>
+        </form>
+        <div class="form-feedback" id="formFeedback">Your message or query has been sent to our supervisor, we will look into it and contact you later.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <h4>Christ Nation Group of Schools</h4>
+          <p style="opacity:.8;font-size:14.5px;max-width:34ch;margin:0">Raising leaders through excellence, character, and faith — across four campuses in Ogun State.</p>
+          <p style="opacity:.6;font-size:13px;margin-top:12px;"><i class="fa-regular fa-envelope"></i> christnationgroupofschool1@gmail.com</p>
+          <p style="opacity:.6;font-size:13px;"><i class="fa-solid fa-phone"></i> +234 905 668 8102</p>
+        </div>
+        <div><h4>About</h4><a href="about_us.html">About Us</a><a href="our-mission.html">Our Mission</a><a href="virtual-tour.html">Virtual Tour</a><a href="testimonials.html">Testimonials</a><a href="history.html">History</a></div>
+        <div><h4>Admissions</h4><a href="apply-online.html">Apply Online</a><a href="admissions-process.html">Admission Process</a><a href="admissions-faqs.html">FAQs</a><a href="prospectus.html">Prospectus</a><a href="schedule-a-tour.html">Arrange a Visit</a></div>
+        <div><h4>Our Schools</h4>
+          <a href="nursery-primary-laderin.html">Nursery &amp; Primary — Laderin</a>
+          <a href="college-laderin.html">Christ Nation College — Laderin</a>
+          <a href="college-agbajege.html">Christ Nation College — Agbajege</a>
+          <a href="nursery-primary-asipa.html">Nursery &amp; Primary — Asipa</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Christ Nation Group of Schools</span>
+        <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // Side Menu
+    const burger = document.getElementById('burgerBtn');
+    const overlay = document.getElementById('mobileOverlay');
+    const menu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('closeMenuBtn');
+
+    function openMenu() {
+      menu.classList.add('open');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    burger.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    // Telegram bot integration for enquiry form
+    const form = document.getElementById('enquiryForm');
+    const feedback = document.getElementById('formFeedback');
+
+    // *** REPLACE WITH YOUR OWN BOT TOKEN AND CHAT ID ***
+    const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
+    const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('pname').value.trim();
+      const email = document.getElementById('pemail').value.trim();
+      const phone = document.getElementById('pphone').value.trim();
+      const campus = document.getElementById('pcampus').value;
+      const message = document.getElementById('pmsg').value.trim();
+
+      if (!name || !email || !phone || !message) {
+        feedback.textContent = 'Please fill in all required fields.';
+        feedback.style.background = '#C0392B';
+        feedback.style.display = 'block';
+        return;
+      }
+
+      const text = `📩 *New Enquiry from Christ Nation Website (Virtual Tour)*%0A%0A👤 *Name:* ${name}%0A📧 *Email:* ${email}%0A📞 *Phone:* ${phone}%0A🏫 *Campus:* ${campus}%0A💬 *Message:* ${message}`;
+
+      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: text,
+          parse_mode: 'Markdown'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          feedback.style.display = 'block';
+          feedback.style.background = 'var(--green)';
+          feedback.textContent = '✅ Your message or query has been sent to our supervisor, we will look into it and contact you later.';
+          form.reset();
+        } else {
+          throw new Error('Telegram API error');
+        }
+      })
+      .catch(error => {
+        feedback.style.display = 'block';
+        feedback.style.background = '#C0392B';
+        feedback.textContent = '❌ There was an error sending your message. Please try again later or contact us directly.';
+        console.error('Error:', error);
+      });
+    });
+  </script>
+
+</body>
+</html>

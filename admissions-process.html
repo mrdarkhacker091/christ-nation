@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admission Application – Christ Nation Group of Schools</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Karla:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ===== RESET & VARIABLES ===== */
+    :root{
+      --green:#12503A; --green-deep:#0A2E20; --green-dark:#071E15;
+      --brass:#C9A54E; --brass-lite:#DFC282;
+      --chalk:#F7F5EF; --white:#fff;
+      --ink:#16211D;
+      --rule:rgba(22,33,29,.13);
+      --success:#2ecc71;
+      --error:#e74c3c;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--chalk);color:var(--ink);font-family:'Karla',system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    h1,h2,h3,h4{font-family:'Zilla Slab',Georgia,serif;font-weight:600;line-height:1.13;margin:0}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+    @media(max-width:820px){.wrap{padding:0 20px}}
+
+    /* ===== TOP BAR ===== */
+    .topbar{background:var(--green-dark);color:rgba(247,245,239,.8);font-size:13px}
+    .topbar .wrap{display:flex;gap:22px;align-items:center;height:38px}
+    .topbar .sp{margin-left:auto}
+    .topbar a{opacity:.85;transition:.2s}
+    .topbar a:hover{color:var(--brass)}
+    @media(max-width:820px){.topbar{display:none}}
+
+    /* ===== MASTHEAD ===== */
+    .masthead{background:var(--green);color:var(--chalk);position:sticky;top:0;z-index:60}
+    .masthead .wrap{display:flex;align-items:center;gap:26px;height:82px}
+    .crest{display:flex;align-items:center;gap:12px;margin-right:auto}
+    .crest img{width:46px;height:48px;object-fit:contain;flex:none}
+    .crest b{font-family:'Zilla Slab',serif;font-size:17.5px;font-weight:600;display:block;line-height:1.15}
+    .crest i{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity: 1; font-weight: 700;font-style:normal}
+
+    .nav{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+    .nav > li{position:relative}
+    .nav > li > a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;padding:30px 13px;letter-spacing:.01em}
+    .nav > li > a:hover{color:var(--brass-lite)}
+    .nav .car{width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7}
+
+    .mega{position:absolute;top:100%;left:-14px;background:var(--white);color:var(--ink);min-width:260px;padding:22px 24px;border-top:3px solid var(--brass);box-shadow:0 22px 48px rgba(7,30,21,.2);opacity:0;visibility:hidden;transform:translateY(-7px);transition:.17s ease;z-index:70}
+    .nav li:hover .mega,.nav li:focus-within .mega{opacity:1;visibility:visible;transform:translateY(0)}
+    .mega.two{min-width:480px;display:grid;grid-template-columns:1fr 1fr;gap:8px 30px}
+    .mega h5{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);opacity:.65;margin:0 0 9px;font-weight:500}
+    .mega a{display:block;font-size:14.5px;padding:6px 0;border-bottom:1px solid transparent}
+    .mega a:hover{color:var(--green);border-bottom-color:var(--brass)}
+    .mega hr{border:none;border-top:1px solid var(--rule);margin:12px 0}
+
+    .applybtn{background:var(--brass);color:var(--green-dark);font-weight:700;font-size:14px;padding:12px 20px;border-radius:2px;white-space:nowrap;transition:.18s}
+    .applybtn:hover{background:var(--brass-lite)}
+    .burger{display:none;background:none;border:1.5px solid rgba(247,245,239,.35);color:var(--chalk);padding:9px 13px;border-radius:2px;font:inherit;font-size:13px;cursor:pointer}
+    @media(max-width:1150px){.nav{display:none}.burger{display:block}}
+
+    /* ===== MOBILE SIDE MENU ===== */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80}
+    .mobile-overlay.active{display:block}
+    .mobile-menu{position:fixed;top:0;right:-320px;width:300px;height:100%;background:var(--green-deep);color:var(--chalk);padding:24px 20px;overflow-y:auto;z-index:90;transition:right .3s ease;box-shadow:-8px 0 30px rgba(0,0,0,.3)}
+    .mobile-menu.open{right:0}
+    .mobile-menu .close-btn{background:none;border:none;color:var(--chalk);font-size:28px;float:right;cursor:pointer}
+    .mobile-menu .mob-crest{margin-bottom:30px}
+    .mobile-menu .mob-crest b{font-family:'Zilla Slab',serif;font-size:18px;display:block;text-transform:uppercase}
+    .mobile-menu .mob-crest i{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+    .mobile-menu a{display:block;padding:14px 0;border-bottom:1px solid rgba(247,245,239,.08);font-size:15px;font-weight:500}
+    .mobile-menu a:hover{color:var(--brass-lite)}
+    .mobile-menu .sub{padding-left:20px;font-size:14px;opacity:.7;border-bottom:none}
+    .mobile-menu .sub:last-child{border-bottom:none}
+    .mobile-menu .apply-mobile{background:var(--brass);color:var(--green-dark);padding:14px;border-radius:2px;text-align:center;font-weight:700;margin-top:16px;border-bottom:none}
+
+    /* ===== HERO ===== */
+    .hero{background:var(--green-deep);color:var(--chalk);position:relative;overflow:hidden;padding:80px 0}
+    .hero::after{content:"";position:absolute;right:-14%;top:-24%;width:62%;height:150%;border-radius:50%;border:1px solid rgba(201,165,78,.16)}
+    .hero .wrap{position:relative;z-index:2}
+    .eyebrow{display:flex;align-items:center;gap:13px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-bottom:24px}
+    .eyebrow::before{content:"";width:40px;height:1.5px;background:var(--brass)}
+    .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);letter-spacing:-.025em;max-width:15ch}
+    .hero h1 em{font-style:italic;color:var(--brass);font-weight:500}
+    .hero p.lede{font-size:19px;max-width:52ch;margin:26px 0 36px;opacity:.85}
+    .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;padding:15px 26px;border-radius:2px;border:1.5px solid transparent;transition:.18s;cursor:pointer}
+    .btn-gold{background:var(--brass);color:var(--green-dark);border-color:var(--brass)}
+    .btn-gold:hover{background:var(--brass-lite);border-color:var(--brass-lite)}
+    .btn-out{background:rgba(247,245,239,.06);color:var(--chalk);border-color:rgba(247,245,239,.3)}
+    .btn-out:hover{background:rgba(247,245,239,.14)}
+    .btn-green{background:var(--green);color:var(--chalk);border-color:var(--green)}
+    .btn-green:hover{background:var(--green-deep);border-color:var(--green-deep)}
+
+    /* ===== SECTION BASE ===== */
+    section{padding:80px 0}
+    .sec-head{max-width:60ch;margin-bottom:46px}
+    .sec-head h2{font-size:clamp(1.95rem,3.6vw,2.85rem);letter-spacing:-.02em}
+    .sec-head p{margin:15px 0 0;opacity:.78}
+    .center{margin-left:auto;margin-right:auto;text-align:center}
+
+    /* ===== APPLICATION LAYOUT ===== */
+    .app-wrapper{display:grid;grid-template-columns:1.3fr 0.7fr;gap:40px;align-items:start}
+    .form-container{background:var(--white);border-radius:16px;box-shadow:0 4px 30px rgba(0,0,0,.08);padding:40px}
+    .payment-container{background:var(--white);border-radius:16px;box-shadow:0 4px 30px rgba(0,0,0,.08);padding:32px;position:sticky;top:100px}
+
+    .form-container .intro{text-align:center;margin-bottom:32px}
+    .form-container .intro .kicker{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--brass);font-weight:500}
+    .form-container .intro .bar{width:52px;height:3px;background:var(--brass);margin:12px auto 16px}
+    .form-container .intro .lead{font-family:'Zilla Slab',serif;font-size:22px;color:var(--green)}
+
+    .section-title{font-size:18px;color:var(--green);margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--brass);display:flex;align-items:center;gap:10px}
+    .section-title i{color:var(--brass)}
+    .section-hint{font-size:13px;color:var(--rule);margin:-8px 0 16px;font-style:italic}
+
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .form-grid .full{grid-column:span 2}
+    .field{margin-bottom:4px}
+    .field label{display:block;font-size:13px;font-weight:700;margin-bottom:4px;color:var(--ink)}
+    .field label .required{color:#c0392b}
+    .field label .optional{color:var(--rule);font-weight:400;font-size:12px}
+    .field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid var(--rule);border-radius:8px;font-family:'Karla',sans-serif;font-size:15px;background:var(--chalk);color:var(--ink);transition:.2s}
+    .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--green);outline:none;box-shadow:0 0 0 3px rgba(18,80,58,.1)}
+    .field textarea{min-height:80px;resize:vertical}
+    .field .hint{font-size:12px;color:var(--rule);margin-top:4px}
+    .field input[type="file"]{padding:8px;background:var(--white)}
+    .field .file-hint{font-size:11px;color:var(--rule);margin-top:2px}
+
+    .radio-group{display:flex;gap:20px;padding-top:6px}
+    .radio-group label{display:flex;align-items:center;gap:8px;font-weight:400;font-size:15px;cursor:pointer}
+    .radio-group label input[type="radio"]{width:16px;height:16px;accent-color:var(--green)}
+
+    .consent-group{margin:16px 0}
+    .consent-group label{display:flex;align-items:flex-start;gap:10px;font-size:14px;cursor:pointer;padding:6px 0}
+    .consent-group label input[type="checkbox"]{width:18px;height:18px;margin-top:2px;accent-color:var(--green);flex:none;cursor:pointer}
+    .consent-group label a{color:var(--green);text-decoration:underline}
+    .consent-group .error-msg{color:var(--error);font-size:13px;display:none;padding-left:28px;margin-top:-4px}
+
+    .submit-btn{width:100%;padding:16px;background:var(--brass);color:var(--green-dark);border:none;border-radius:8px;font-size:18px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px}
+    .submit-btn:hover:not(:disabled){background:var(--brass-lite);transform:translateY(-2px)}
+    .submit-btn:disabled{opacity:.6;cursor:not-allowed}
+
+    /* ===== PAYMENT SECTION ===== */
+    .payment-container h3{color:var(--green);font-size:20px;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+    .payment-container h3 i{color:var(--brass)}
+    .payment-container .sub-text{font-size:14px;opacity:.7;margin-bottom:20px;line-height:1.6}
+    .payment-table{width:100%;border-collapse:collapse;margin:12px 0}
+    .payment-table td{padding:10px 12px;border-bottom:1px solid var(--rule);font-size:14px}
+    .payment-table td:first-child{font-weight:600;color:var(--green);width:40%}
+    .payment-table td:last-child{opacity:.85}
+    .payment-table .alt-title{font-weight:700;color:var(--green);padding-top:16px;border-bottom:1px solid var(--brass)}
+    .payment-note{background:var(--chalk);padding:14px 16px;border-radius:8px;font-size:13px;opacity:.8;margin-top:16px;border-left:3px solid var(--brass)}
+    .payment-note i{color:var(--brass);margin-right:8px}
+
+    /* ===== MODAL ===== */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.active{display:flex}
+    .modal-box{background:var(--white);border-radius:16px;padding:40px;max-width:500px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:modalIn .3s ease}
+    @keyframes modalIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+    .modal-box .icon{font-size:64px;margin-bottom:16px}
+    .modal-box .icon.success{color:var(--success)}
+    .modal-box .icon.error{color:var(--error)}
+    .modal-box h2{font-size:24px;margin-bottom:8px}
+    .modal-box p{opacity:.8;font-size:16px;margin:4px 0;line-height:1.6}
+    .modal-box .btn{margin-top:20px}
+
+    @media(max-width:992px){.app-wrapper{grid-template-columns:1fr}.payment-container{position:static}}
+    @media(max-width:768px){.form-container{padding:20px}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:span 1}.radio-group{flex-direction:column;gap:8px}.payment-container{padding:20px}.payment-table td{font-size:13px;padding:8px 10px}}
+
+    /* ===== STATS ===== */
+    .strip{background:var(--green-dark);color:var(--chalk);padding:44px 0}
+    .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+    .stat b{display:block;font-family:'Zilla Slab',serif;font-size:38px;font-weight:600;color:var(--brass);line-height:1}
+    .stat span{display:block;font-size:13.5px;margin-top:8px;opacity:.75}
+    @media(max-width:760px){.strip .wrap{grid-template-columns:1fr 1fr}}
+
+    /* ===== FOOTER ===== */
+    footer{background:var(--green-dark);color:var(--chalk);padding:64px 0 34px}
+    .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:38px;padding-bottom:38px;border-bottom:1px solid rgba(247,245,239,.15)}
+    .foot-grid h4{font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:15px;font-weight:400}
+    .foot-grid a{display:block;font-size:14.5px;opacity:.85;padding:5px 0}
+    .foot-grid a:hover{color:var(--brass)}
+    .foot-bottom{padding-top:24px;font-size:13px;opacity:.6;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+  
+    /* ===== FIXES: header spacing, photo slots, avatars ===== */
+    .crest span{display:flex;flex-direction:column;gap:3px;min-width:0}
+    .crest b{line-height:1.1;white-space:nowrap}
+    .crest i{display:block;line-height:1.1;white-space:nowrap}
+    @media(max-width:520px){
+      .masthead .wrap{gap:8px;padding:0 14px}
+      .crest{gap:8px;min-width:0}
+      .crest img{width:38px;height:40px}
+      .crest b{font-size:14px}
+      .crest i{font-size:7.5px;letter-spacing:.1em}
+      .applybtn{font-size:12px;padding:10px 11px}
+      .applybtn i{display:none}
+      .burger{padding:8px 10px;font-size:12px;white-space:nowrap}
+    }
+    .ph-box{padding:0 !important;position:relative;overflow:hidden}
+    a.ph{position:relative}
+    a.ph>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:2;border-radius:inherit}
+    .lead-card .avatar{position:relative;overflow:hidden;flex:none}
+    .lead-card .avatar>i{font-size:34px;color:rgba(247,245,239,.35)}
+    .lead-card .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;border-radius:50%}
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="topbar">
+    <div class="wrap">
+      <span>Lagos &amp; Ogun State, Nigeria</span>
+      <span class="sp"></span>
+      <a href="results.html"><i class="fa-regular fa-square-check"></i> Check Results</a>
+      <a href="e-learning.html"><i class="fa-solid fa-book"></i> E-Learning</a>
+      <a href="contact.html"><i class="fa-solid fa-phone"></i> +234 905 668 8102</a>
+    </div>
+  </div>
+
+  <!-- ===== MASTHEAD ===== -->
+  <header class="masthead">
+    <div class="wrap">
+      <a class="crest" href="index.html">
+        <img src="images/logo.png" alt="Christ Nation Group of Schools logo" width="46" height="48">
+        <span style="text-transform:uppercase;"><b>Christ Nation</b><i>Group of Schools</i></span>
+      </a>
+
+      <ul class="nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about_us.html">About <span class="car"></span></a>
+          <div class="mega">
+            <a href="our-mission.html">Our Mission</a>
+            <a href="virtual-tour.html">Virtual Tour</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="history.html">History</a>
+          </div>
+        </li>
+        <li><a href="programs.html">Programs <span class="car"></span></a>
+          <div class="mega">
+            <a href="nursery.html">Nursery Programme</a>
+            <a href="primary.html">Primary Programme</a>
+            <a href="secondary.html">Secondary Programme</a>
+          </div>
+        </li>
+        <li><a href="admission.html" style="color:var(--brass);">Admissions <span class="car"></span></a>
+          <div class="mega">
+            <a href="admissions-process.html">Admission Process</a>
+            <a href="admissions-faqs.html">FAQs</a>
+            <hr>
+            <a href="apply-online.html"><b>Apply Online</b></a>
+            <a href="prospectus.html">Download Prospectus</a>
+            <a href="schedule-a-tour.html">Schedule a Tour</a>
+            <a href="about_us.html#why"><b>Why Choose Christ Nation?</b></a>
+          </div>
+        </li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="faqs.html">FAQs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a class="applybtn" href="apply-online.html"><i class="fa-regular fa-pen-to-square"></i> Apply Online</a>
+      <button class="burger" id="burgerBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i> Menu</button>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE OVERLAY & SIDE MENU ===== -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenuBtn"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-crest">
+      <b>Christ Nation</b>
+      <i>Group of Schools</i>
+    </div>
+    <a href="index.html">Home</a>
+    <a href="about_us.html">About</a>
+    <a href="our-mission.html" class="sub">Our Mission</a>
+    <a href="virtual-tour.html" class="sub">Virtual Tour</a>
+    <a href="testimonials.html" class="sub">Testimonials</a>
+    <a href="history.html" class="sub">History</a>
+    <a href="programs.html">Programs</a>
+    <a href="nursery.html" class="sub">Nursery Programme</a>
+    <a href="primary.html" class="sub">Primary Programme</a>
+    <a href="secondary.html" class="sub">Secondary Programme</a>
+    <a href="admission.html" class="sub" style="color:var(--brass);">Admissions</a>
+    <a href="admissions-process.html" class="sub">Admission Process</a>
+    <a href="admissions-faqs.html" class="sub">FAQs</a>
+    <a href="apply-online.html" class="sub">Apply Online</a>
+    <a href="prospectus.html" class="sub">Prospectus</a>
+    <a href="schedule-a-tour.html" class="sub">Schedule a Tour</a>
+    <a href="about_us.html#why" class="sub">Why Choose Christ Nation?</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="faqs.html">FAQs</a>
+    <a href="contact.html">Contact</a>
+    <a href="apply-online.html" class="apply-mobile"><i class="fa-regular fa-pen-to-square"></i> Apply Online</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><i class="fa-regular fa-pen-to-square"></i> Admission Application</p>
+      <h1>Start Your <em>Application</em></h1>
+      <p class="lede">Complete the form below to begin the admission process for your child at Christ Nation Group of Schools.</p>
+    </div>
+  </div>
+
+  <!-- ===== APPLICATION + PAYMENT ===== -->
+  <section style="background:var(--chalk);padding:60px 0;">
+    <div class="wrap">
+      <div class="app-wrapper">
+
+        <!-- ===== FORM ===== -->
+        <div class="form-container">
+          <div class="intro">
+            <p class="kicker">Application Form</p>
+            <div class="bar"></div>
+            <p class="lead">Please fill in all required fields (<span class="required">*</span>)</p>
+          </div>
+
+          <form id="admissionForm" enctype="multipart/form-data">
+
+            <!-- ===== SECTION: PARENT/GUARDIAN INFORMATION ===== -->
+            <div class="section-title"><i class="fa-regular fa-user"></i> Parent / Guardian Information</div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="parentName" placeholder="e.g. Mr. & Mrs. Adeyemi" required>
+              </div>
+              <div class="field">
+                <label>Phone Number <span class="required">*</span></label>
+                <input type="tel" id="phone" placeholder="+234 905 668 8102" required>
+              </div>
+              <div class="field">
+                <label>Alternative Phone Number <span class="optional">(Optional)</span></label>
+                <input type="tel" id="altPhone" placeholder="+234 800 000 0000">
+              </div>
+              <div class="field full">
+                <label>Residential Address <span class="required">*</span></label>
+                <input type="text" id="address" placeholder="Full residential address" required>
+              </div>
+              <div class="field full">
+                <label>Email Address <span class="optional">(Optional)</span></label>
+                <input type="email" id="email" placeholder="you@example.com">
+                <div class="hint">Useful for admission updates and communication.</div>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: CHILD INFORMATION ===== -->
+            <div class="section-title"><i class="fa-solid fa-child"></i> Child Information</div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Child's Full Name <span class="required">*</span></label>
+                <input type="text" id="childName" placeholder="e.g. Michael Adeyemi" required>
+              </div>
+              <div class="field">
+                <label>Gender <span class="required">*</span></label>
+                <div class="radio-group">
+                  <label><input type="radio" name="gender" value="Male" required> Male</label>
+                  <label><input type="radio" name="gender" value="Female" required> Female</label>
+                </div>
+              </div>
+              <div class="field">
+                <label>Date of Birth <span class="required">*</span></label>
+                <input type="date" id="childDob" required>
+              </div>
+              <div class="field">
+                <label>Age <span class="required">*</span></label>
+                <input type="number" id="childAge" placeholder="e.g. 8" min="1" max="18" required>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: APPLICATION DETAILS ===== -->
+            <div class="section-title"><i class="fa-solid fa-school"></i> Application Details</div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label>Applying For <span class="required">*</span></label>
+                <select id="applyingFor" required>
+                  <option value="">Select...</option>
+                  <option value="nursery">Primary Program</option>
+                  <option value="primary">Primary School</option>
+                  <option value="secondary">Secondary School</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Desired Class <span class="required">*</span></label>
+                <select id="desiredClass" required>
+                  <option value="">Select a class...</option>
+                  <option value="reception">Reception</option>
+                  <option value="prenursery1">Pre-Nursery 1</option>
+                  <option value="prenursery2">Pre-Nursery 2</option>
+                  <option value="nursery1">Nursery 1</option>
+                  <option value="nursery2">Nursery 2</option>
+                  <option value="primary1">Primary 1</option>
+                  <option value="primary2">Primary 2</option>
+                  <option value="primary3">Primary 3</option>
+                  <option value="primary4">Primary 4</option>
+                  <option value="primary5">Primary 5</option>
+                  <option value="primary6">Primary 6</option>
+                  <option value="jss1">JSS 1</option>
+                  <option value="jss2">JSS 2</option>
+                  <option value="jss3">JSS 3</option>
+                  <option value="sss1science">SSS 1 Science Department</option>
+                  <option value="sss1humanity">SSS 1 Humanity Department</option>
+                  <option value="sss1business">SSS 1 Business Department</option>
+                  <option value="sss2science">SSS 2 Science Department</option>
+                  <option value="sss2humanity">SSS 2 Humanity Department</option>
+                  <option value="sss2business">SSS 2 Business Department</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: PREVIOUS SCHOOL ===== -->
+            <div class="section-title"><i class="fa-solid fa-building-columns"></i> Previous School <span class="optional" style="font-weight:400;font-size:14px;color:var(--rule);">(Optional)</span></div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Previous School Name</label>
+                <input type="text" id="prevSchool" placeholder="Name of previous school">
+              </div>
+              <div class="field full">
+                <label>Previous Class</label>
+                <select id="prevClass">
+                  <option value="">Select previous class...</option>
+                  <option value="reception">Reception</option>
+                  <option value="prenursery1">Pre-Nursery 1</option>
+                  <option value="prenursery2">Pre-Nursery 2</option>
+                  <option value="nursery1">Nursery 1</option>
+                  <option value="nursery2">Nursery 2</option>
+                  <option value="primary1">Primary 1</option>
+                  <option value="primary2">Primary 2</option>
+                  <option value="primary3">Primary 3</option>
+                  <option value="primary4">Primary 4</option>
+                  <option value="primary5">Primary 5</option>
+                  <option value="primary6">Primary 6</option>
+                  <option value="jss1">JSS 1</option>
+                  <option value="jss2">JSS 2</option>
+                  <option value="jss3">JSS 3</option>
+                  <option value="sss1science">SSS 1 Science Department</option>
+                  <option value="sss1humanity">SSS 1 Humanity Department</option>
+                  <option value="sss1business">SSS 1 Business Department</option>
+                  <option value="sss2science">SSS 2 Science Department</option>
+                  <option value="sss2humanity">SSS 2 Humanity Department</option>
+                  <option value="sss2business">SSS 2 Business Department</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: SUPPORTING DOCUMENTS ===== -->
+            <div class="section-title"><i class="fa-regular fa-file"></i> Supporting Documents <span class="optional" style="font-weight:400;font-size:14px;color:var(--rule);">(Optional)</span></div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Upload Child's Passport Photograph</label>
+                <input type="file" id="passportPhoto" accept=".jpg,.jpeg,.png">
+                <div class="file-hint">Accepted formats: JPG, PNG, JPEG. Max size: 5MB.</div>
+              </div>
+              <div class="field full">
+                <label>Upload Academic Report</label>
+                <input type="file" id="academicReport" accept=".pdf,.jpg,.jpeg,.png">
+                <div class="file-hint">Previous school report card or transcript (optional).</div>
+              </div>
+              <div class="field full">
+                <label>Upload Birth Certificate</label>
+                <input type="file" id="birthCert" accept=".pdf,.jpg,.jpeg,.png">
+                <div class="file-hint">Birth certificate or age declaration (optional).</div>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: MEDICAL & LEARNING NEEDS ===== -->
+            <div class="section-title"><i class="fa-regular fa-heart"></i> Medical &amp; Learning Needs <span class="optional" style="font-weight:400;font-size:14px;color:var(--rule);">(Optional)</span></div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Medical Information</label>
+                <textarea id="medicalInfo" placeholder="Allergies, health conditions, medications, or any other medical information we should know." rows="3"></textarea>
+              </div>
+              <div class="field full">
+                <label>Special Learning Requirements</label>
+                <textarea id="learningNeeds" placeholder="Any learning support needs, ADHD, dyslexia, or other educational requirements." rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: PARENT MESSAGE ===== -->
+            <div class="section-title"><i class="fa-regular fa-message"></i> Parent Message <span class="optional" style="font-weight:400;font-size:14px;color:var(--rule);">(Optional)</span></div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Why do you want your child to attend Christ Nation Group of Schools?</label>
+                <textarea id="parentMessage" placeholder="We believe Christ Nation Group of Schools provides quality education and strong moral values. We would like our child to study in an environment that promotes academic excellence and character development." rows="4"></textarea>
+              </div>
+            </div>
+
+            <!-- ===== SECTION: ADDITIONAL NOTES ===== -->
+            <div class="section-title"><i class="fa-solid fa-pen"></i> Additional Notes <span class="optional" style="font-weight:400;font-size:14px;color:var(--rule);">(Optional)</span></div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label>Is there anything else you would like us to know about your child?</label>
+                <textarea id="additionalNotes" placeholder="Talents, special interests, academic strengths, or any other information you would like to share." rows="4"></textarea>
+              </div>
+            </div>
+
+            <!-- ===== CONSENT ===== -->
+            <div class="consent-group">
+              <label>
+                <input type="checkbox" id="declarationConsent" required>
+                I confirm that all information provided is correct and accurate to the best of my knowledge. <span class="required">*</span>
+              </label>
+              <div class="error-msg" id="consentError">You must confirm that all information is correct to submit your application.</div>
+              <label>
+                <input type="checkbox" id="commConsent">
+                I agree to receive communications regarding admissions and school updates.
+              </label>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn"><i class="fa-regular fa-paper-plane"></i> Submit Application</button>
+
+            <p style="text-align:center;font-size:13px;color:var(--rule);margin-top:12px;">Fields marked with <span class="required">*</span> are required.</p>
+
+          </form>
+        </div>
+
+        <!-- ===== PAYMENT DETAILS ===== -->
+        <div class="payment-container">
+          <h3><i class="fa-solid fa-bank"></i> Payment Details</h3>
+          <p class="sub-text">Complete the online application form and make your payment of <strong>₦5,000</strong> via bank transfer to the account below. Your application will be processed upon confirmation of payment.</p>
+
+          <table class="payment-table">
+            <tr>
+              <td>Bank</td>
+              <td><strong>Moniepoint</strong></td>
+            </tr>
+            <tr>
+              <td>Account Name</td>
+              <td><strong>Christ Nation Group of Schools</strong></td>
+            </tr>
+            <tr>
+              <td>Account Number</td>
+              <td><strong>5748260119</strong></td>
+            </tr>
+          </table>
+
+          <div style="margin-top:12px;padding:12px 0;border-top:1px solid var(--rule);">
+            <p style="font-size:13px;font-weight:600;color:var(--green);margin:0;">📧 After payment, email your receipt and completed form to:</p>
+            <p style="font-size:13px;margin:4px 0;"><a href="mailto:christnationgroupofschool1@gmail.com" style="color:var(--green);font-weight:600;">christnationgroupofschool1@gmail.com</a></p>
+            <p style="font-size:13px;font-weight:600;color:var(--green);margin:6px 0 0;">📱 Or WhatsApp it to:</p>
+            <p style="font-size:13px;margin:4px 0;"><a href="tel:+2347065579059" style="color:var(--green);font-weight:600;">+234 706 557 9059</a></p>
+          </div>
+
+          <div class="payment-note">
+            <i class="fa-solid fa-circle-info"></i>
+            Online payment integration is coming soon. This form currently serves as a pre‑registration.
+          </div>
+
+          <!-- Need Assistance -->
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--rule);">
+            <h4 style="color:var(--green);font-size:16px;margin-bottom:8px;"><i class="fa-regular fa-circle-question" style="color:var(--brass);margin-right:8px;"></i> Need Assistance?</h4>
+            <p style="font-size:14px;opacity:.8;margin:0;">If you require help during the admission process, please contact the Admissions Office for guidance and support.</p>
+            <p style="font-size:14px;margin-top:8px;">
+              <a href="tel:+2349056688102" style="color:var(--green);font-weight:600;">+234 905 668 8102</a> |
+              <a href="tel:+2347065579059" style="color:var(--green);font-weight:600;">+234 706 557 9059</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="icon" id="modalIcon"><i class="fa-regular fa-circle-check"></i></div>
+      <h2 id="modalTitle">Application Submitted Successfully</h2>
+      <p id="modalMessage">Thank you for choosing Christ Nation Group of Schools. Our admissions team will review your application and contact you shortly regarding the next stage of the admission process.</p>
+      <button class="btn btn-green" id="modalBtn">OK</button>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <h4>Christ Nation Group of Schools</h4>
+          <p style="opacity:.8;font-size:14.5px;max-width:34ch;margin:0">Raising leaders through excellence, character, and faith — across four campuses in Ogun State.</p>
+          <p style="opacity:.6;font-size:13px;margin-top:12px;"><i class="fa-regular fa-envelope"></i> christnationgroupofschool1@gmail.com</p>
+          <p style="opacity:.6;font-size:13px;"><i class="fa-solid fa-phone"></i> +234 905 668 8102</p>
+        </div>
+        <div><h4>About</h4><a href="about_us.html">About Us</a><a href="our-mission.html">Our Mission</a><a href="virtual-tour.html">Virtual Tour</a><a href="testimonials.html">Testimonials</a><a href="history.html">History</a></div>
+        <div><h4>Admissions</h4><a href="apply-online.html">Apply Online</a><a href="admissions-process.html">Admission Process</a><a href="admissions-faqs.html">FAQs</a><a href="prospectus.html">Prospectus</a><a href="schedule-a-tour.html">Schedule a Tour</a></div>
+        <div><h4>Our Schools</h4>
+          <a href="nursery-primary-laderin.html">Nursery &amp; Primary — Laderin</a>
+          <a href="college-laderin.html">Christ Nation College — Laderin</a>
+          <a href="college-agbajege.html">Christ Nation College — Agbajege</a>
+          <a href="nursery-primary-asipa.html">Nursery &amp; Primary — Asipa</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Christ Nation Group of Schools</span>
+        <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // Side Menu
+    const burger = document.getElementById('burgerBtn');
+    const overlay = document.getElementById('mobileOverlay');
+    const menu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('closeMenuBtn');
+
+    function openMenu() { menu.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeMenu() { menu.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+
+    burger.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    // ===== MODAL =====
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalBtn = document.getElementById('modalBtn');
+
+    function showModal(success, message) {
+      if (success) {
+        modalIcon.className = 'icon success';
+        modalIcon.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+        modalTitle.textContent = '✅ Application Submitted Successfully';
+        modalMessage.textContent = message || 'Thank you for choosing Christ Nation Group of Schools. Our admissions team will review your application and contact you shortly regarding the next stage of the admission process.';
+        modalBtn.className = 'btn btn-green';
+      } else {
+        modalIcon.className = 'icon error';
+        modalIcon.innerHTML = '<i class="fa-regular fa-circle-xmark"></i>';
+        modalTitle.textContent = '❌ Submission Failed';
+        modalMessage.textContent = message || 'There was an error submitting your application. Please try again later or contact us directly.';
+        modalBtn.className = 'btn btn-green';
+      }
+      modalOverlay.classList.add('active');
+    }
+
+    modalBtn.addEventListener('click', function() {
+      modalOverlay.classList.remove('active');
+    });
+
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === this) modalOverlay.classList.remove('active');
+    });
+
+    // ===== TELEGRAM FUNCTIONS =====
+    // *** REPLACE WITH YOUR OWN BOT TOKEN AND CHAT ID ***
+    const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
+    const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+
+    async function sendTelegramText(text) {
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: text,
+          parse_mode: 'Markdown'
+        })
+      });
+      return response.json();
+    }
+
+    async function sendTelegramFile(fileInput, caption) {
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        return null;
+      }
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('chat_id', TELEGRAM_CHAT_ID);
+      formData.append('document', file);
+      formData.append('caption', caption);
+
+      const isImage = file.type.startsWith('image/');
+      const url = isImage
+        ? `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`
+        : `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData
+      });
+      return response.json();
+    }
+
+    // ===== FORM SUBMISSION =====
+    const form = document.getElementById('admissionForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const declarationConsent = document.getElementById('declarationConsent');
+    const consentError = document.getElementById('consentError');
+
+    declarationConsent.addEventListener('change', function() {
+      if (this.checked) consentError.style.display = 'none';
+    });
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Validate declaration consent
+      if (!declarationConsent.checked) {
+        consentError.style.display = 'block';
+        declarationConsent.focus();
+        return;
+      } else {
+        consentError.style.display = 'none';
+      }
+
+      // Get all required fields
+      const parentName = document.getElementById('parentName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const childName = document.getElementById('childName').value.trim();
+      const gender = document.querySelector('input[name="gender"]:checked');
+      const childDob = document.getElementById('childDob').value;
+      const childAge = document.getElementById('childAge').value.trim();
+      const applyingFor = document.getElementById('applyingFor').value;
+      const desiredClass = document.getElementById('desiredClass').value;
+
+      // Validate required fields
+      if (!parentName || !phone || !address || !childName || !gender || !childDob || !childAge || !applyingFor || !desiredClass) {
+        showModal(false, 'Please fill in all required fields marked with (*).');
+        return;
+      }
+
+      // Get optional fields
+      const altPhone = document.getElementById('altPhone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const prevSchool = document.getElementById('prevSchool').value.trim();
+      const prevClass = document.getElementById('prevClass').value;
+      const medicalInfo = document.getElementById('medicalInfo').value.trim();
+      const learningNeeds = document.getElementById('learningNeeds').value.trim();
+      const parentMessage = document.getElementById('parentMessage').value.trim();
+      const additionalNotes = document.getElementById('additionalNotes').value.trim();
+
+      // Get file inputs
+      const passportPhoto = document.getElementById('passportPhoto');
+      const academicReport = document.getElementById('academicReport');
+      const birthCert = document.getElementById('birthCert');
+
+
+      // Get current date/time
+      const now = new Date();
+      const submittedDate = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      const submittedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+      // Build the text message
+      let text = `🎓 *NEW ADMISSION APPLICATION*%0A%0A`;
+      text += `👤 *Parent Name:* ${parentName}%0A`;
+      text += `📞 *Phone:* ${phone}%0A`;
+      if (altPhone) text += `📞 *Alt Phone:* ${altPhone}%0A`;
+      if (email) text += `📧 *Email:* ${email}%0A`;
+      text += `🏠 *Address:* ${address}%0A%0A`;
+      text += `👦 *Child Name:* ${childName}%0A`;
+      text += `🚻 *Gender:* ${gender.value}%0A`;
+      text += `🎂 *DOB:* ${childDob}%0A`;
+      text += `📅 *Age:* ${childAge}%0A%0A`;
+      text += `🏫 *Applying For:* ${applyingFor}%0A`;
+      text += `📚 *Desired Class:* ${desiredClass}%0A`;
+      if (prevSchool) text += `🏛 *Previous School:* ${prevSchool}%0A`;
+      if (prevClass) text += `📖 *Previous Class:* ${prevClass}%0A`;
+      text += `%0A`;
+      if (medicalInfo) text += `🩺 *Medical Info:* ${medicalInfo}%0A`;
+      if (learningNeeds) text += `📝 *Learning Needs:* ${learningNeeds}%0A`;
+      if (parentMessage) text += `💬 *Reason For Admission:* ${parentMessage}%0A`;
+      if (additionalNotes) text += `📌 *Additional Notes:* ${additionalNotes}%0A`;
+      text += `%0A🕒 *Submitted:* ${submittedDate} at ${submittedTime}`;
+
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+      submitBtn.disabled = true;
+
+      try {
+        // 1. Send the text message first
+        await sendTelegramText(text);
+
+        // 2. Send each file with a caption
+        const fileUploads = [
+          { input: passportPhoto, caption: `📸 Passport Photo - ${childName}` },
+          { input: academicReport, caption: `📄 Academic Report - ${childName}` },
+          { input: birthCert, caption: `📄 Birth Certificate - ${childName}` }
+        ];
+
+        for (const fileUpload of fileUploads) {
+          if (fileUpload.input && fileUpload.input.files && fileUpload.input.files.length > 0) {
+            await sendTelegramFile(fileUpload.input, fileUpload.caption);
+          }
+        }
+
+        // Success!
+        showModal(true);
+        form.reset();
+        document.querySelectorAll('input[type="file"]').forEach(el => el.value = '');
+
+      } catch (error) {
+        showModal(false, 'There was an error submitting your application. Please try again later or contact us directly.');
+        console.error('Error:', error);
+      } finally {
+        submitBtn.innerHTML = '<i class="fa-regular fa-paper-plane"></i> Submit Application';
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prospectus – Christ Nation Group of Schools</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Karla:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ===== RESET & VARIABLES ===== */
+    :root{
+      --green:#12503A; --green-deep:#0A2E20; --green-dark:#071E15;
+      --brass:#C9A54E; --brass-lite:#DFC282;
+      --chalk:#F7F5EF; --white:#fff;
+      --ink:#16211D;
+      --rule:rgba(22,33,29,.13);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--chalk);color:var(--ink);font-family:'Karla',system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    h1,h2,h3,h4{font-family:'Zilla Slab',Georgia,serif;font-weight:600;line-height:1.13;margin:0}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+    @media(max-width:820px){.wrap{padding:0 20px}}
+
+    /* ===== TOP BAR ===== */
+    .topbar{background:var(--green-dark);color:rgba(247,245,239,.8);font-size:13px}
+    .topbar .wrap{display:flex;gap:22px;align-items:center;height:38px}
+    .topbar .sp{margin-left:auto}
+    .topbar a{opacity:.85;transition:.2s}
+    .topbar a:hover{color:var(--brass)}
+    @media(max-width:820px){.topbar{display:none}}
+
+    /* ===== MASTHEAD ===== */
+    .masthead{background:var(--green);color:var(--chalk);position:sticky;top:0;z-index:60}
+    .masthead .wrap{display:flex;align-items:center;gap:26px;height:82px}
+    .crest{display:flex;align-items:center;gap:12px;margin-right:auto}
+    .crest img{width:46px;height:48px;object-fit:contain;flex:none}
+    .crest b{font-family:'Zilla Slab',serif;font-size:17.5px;font-weight:600;display:block;line-height:1.15}
+    .crest i{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;opacity: 1; font-weight: 700;font-style:normal}
+
+    .nav{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+    .nav > li{position:relative}
+    .nav > li > a{display:flex;align-items:center;gap:5px;font-size:14.5px;font-weight:600;padding:30px 13px;letter-spacing:.01em}
+    .nav > li > a:hover{color:var(--brass-lite)}
+    .nav .car{width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7}
+
+    .mega{position:absolute;top:100%;left:-14px;background:var(--white);color:var(--ink);min-width:250px;padding:22px 24px;border-top:3px solid var(--brass);box-shadow:0 22px 48px rgba(7,30,21,.2);opacity:0;visibility:hidden;transform:translateY(-7px);transition:.17s ease;z-index:70}
+    .nav li:hover .mega,.nav li:focus-within .mega{opacity:1;visibility:visible;transform:translateY(0)}
+    .mega.two{min-width:480px;display:grid;grid-template-columns:1fr 1fr;gap:8px 30px}
+    .mega h5{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);opacity:.65;margin:0 0 9px;font-weight:500}
+    .mega a{display:block;font-size:14.5px;padding:6px 0;border-bottom:1px solid transparent}
+    .mega a:hover{color:var(--green);border-bottom-color:var(--brass)}
+    .mega hr{border:none;border-top:1px solid var(--rule);margin:12px 0}
+
+    .applybtn{background:var(--brass);color:var(--green-dark);font-weight:700;font-size:14px;padding:12px 20px;border-radius:2px;white-space:nowrap;transition:.18s}
+    .applybtn:hover{background:var(--brass-lite)}
+    .burger{display:none;background:none;border:1.5px solid rgba(247,245,239,.35);color:var(--chalk);padding:9px 13px;border-radius:2px;font:inherit;font-size:13px;cursor:pointer}
+    @media(max-width:1150px){.nav{display:none}.burger{display:block}}
+
+    /* ===== MOBILE SIDE MENU ===== */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80}
+    .mobile-overlay.active{display:block}
+    .mobile-menu{position:fixed;top:0;right:-320px;width:300px;height:100%;background:var(--green-deep);color:var(--chalk);padding:24px 20px;overflow-y:auto;z-index:90;transition:right .3s ease;box-shadow:-8px 0 30px rgba(0,0,0,.3)}
+    .mobile-menu.open{right:0}
+    .mobile-menu .close-btn{background:none;border:none;color:var(--chalk);font-size:28px;float:right;cursor:pointer}
+    .mobile-menu .mob-crest{margin-bottom:30px}
+    .mobile-menu .mob-crest b{font-family:'Zilla Slab',serif;font-size:18px;display:block;text-transform:uppercase}
+    .mobile-menu .mob-crest i{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+    .mobile-menu a{display:block;padding:14px 0;border-bottom:1px solid rgba(247,245,239,.08);font-size:15px;font-weight:500}
+    .mobile-menu a:hover{color:var(--brass-lite)}
+    .mobile-menu .sub{padding-left:20px;font-size:14px;opacity:.7;border-bottom:none}
+    .mobile-menu .sub:last-child{border-bottom:none}
+    .mobile-menu .apply-mobile{background:var(--brass);color:var(--green-dark);padding:14px;border-radius:2px;text-align:center;font-weight:700;margin-top:16px;border-bottom:none}
+
+    /* ===== HERO ===== */
+    .hero{background:var(--green-deep);color:var(--chalk);position:relative;overflow:hidden;padding:80px 0}
+    .hero::after{content:"";position:absolute;right:-14%;top:-24%;width:62%;height:150%;border-radius:50%;border:1px solid rgba(201,165,78,.16)}
+    .hero .wrap{position:relative;z-index:2}
+    .eyebrow{display:flex;align-items:center;gap:13px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin-bottom:24px}
+    .eyebrow::before{content:"";width:40px;height:1.5px;background:var(--brass)}
+    .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);letter-spacing:-.025em;max-width:15ch}
+    .hero h1 em{font-style:italic;color:var(--brass);font-weight:500}
+    .hero p.lede{font-size:19px;max-width:52ch;margin:26px 0 36px;opacity:.85}
+    .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;padding:15px 26px;border-radius:2px;border:1.5px solid transparent;transition:.18s;cursor:pointer}
+    .btn-gold{background:var(--brass);color:var(--green-dark);border-color:var(--brass)}
+    .btn-gold:hover{background:var(--brass-lite);border-color:var(--brass-lite)}
+    .btn-out{background:rgba(247,245,239,.06);color:var(--chalk);border-color:rgba(247,245,239,.3)}
+    .btn-out:hover{background:rgba(247,245,239,.14)}
+    .btn-green{background:var(--green);color:var(--chalk);border-color:var(--green)}
+    .btn-green:hover{background:var(--green-deep);border-color:var(--green-deep)}
+
+    /* ===== SECTION BASE ===== */
+    section{padding:80px 0}
+    .sec-head{max-width:60ch;margin-bottom:46px}
+    .sec-head h2{font-size:clamp(1.95rem,3.6vw,2.85rem);letter-spacing:-.02em}
+    .sec-head p{margin:15px 0 0;opacity:.78}
+    .center{margin-left:auto;margin-right:auto;text-align:center}
+
+    /* ===== PROSPECTUS CONTENT ===== */
+    .prospectus-content{background:var(--white);padding:60px 0}
+    .prospectus-content .wrap{max-width:900px;margin:0 auto}
+    .prospectus-content .kicker{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--brass);font-weight:500;text-align:center}
+    .prospectus-content .bar{width:52px;height:3px;background:var(--brass);margin:12px auto 22px}
+    .prospectus-content .lead{font-family:'Zilla Slab',serif;font-size:22px;color:var(--green);margin-bottom:20px;text-align:center}
+    .prospectus-content p{opacity:.8;max-width:70ch;margin:0 auto 16px;line-height:1.8}
+
+    .prospectus-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:30px 0}
+    .prospectus-card{background:var(--chalk);padding:24px 28px;border-radius:12px;border-left:4px solid var(--brass)}
+    .prospectus-card h3{font-size:18px;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+    .prospectus-card h3 i{color:var(--brass)}
+    .prospectus-card ul{list-style:none;padding:0;margin:8px 0 0}
+    .prospectus-card ul li{padding:4px 0;font-size:15px;display:flex;align-items:center;gap:10px}
+    .prospectus-card ul li i{color:var(--brass);width:20px;text-align:center}
+
+    .download-section{background:var(--green);color:var(--chalk);padding:50px 0;text-align:center;border-radius:12px;margin:40px 0}
+    .download-section h3{color:var(--chalk);font-size:28px;margin-bottom:8px}
+    .download-section p{opacity:.85;max-width:50ch;margin:0 auto 20px;font-size:16px}
+    .download-section .btn-gold{background:var(--brass);color:var(--green-dark);font-size:16px;padding:16px 36px}
+    .download-section .btn-gold:hover{background:var(--brass-lite)}
+    .download-section .btn-out{background:rgba(247,245,239,.12);color:var(--chalk);border-color:rgba(247,245,239,.3);padding:16px 36px}
+    .download-section .btn-out:hover{background:rgba(247,245,239,.2)}
+    .download-section .btn-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+    @media(max-width:768px){.prospectus-grid{grid-template-columns:1fr}.download-section .btn-group{flex-direction:column;align-items:center}}
+
+    /* ===== STATS ===== */
+    .strip{background:var(--green-dark);color:var(--chalk);padding:44px 0}
+    .strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+    .stat b{display:block;font-family:'Zilla Slab',serif;font-size:38px;font-weight:600;color:var(--brass);line-height:1}
+    .stat span{display:block;font-size:13.5px;margin-top:8px;opacity:.75}
+    @media(max-width:760px){.strip .wrap{grid-template-columns:1fr 1fr}}
+
+    /* ===== FOOTER ===== */
+    footer{background:var(--green-dark);color:var(--chalk);padding:64px 0 34px}
+    .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:38px;padding-bottom:38px;border-bottom:1px solid rgba(247,245,239,.15)}
+    .foot-grid h4{font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:15px;font-weight:400}
+    .foot-grid a{display:block;font-size:14.5px;opacity:.85;padding:5px 0}
+    .foot-grid a:hover{color:var(--brass)}
+    .foot-bottom{padding-top:24px;font-size:13px;opacity:.6;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    @media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
+  
+    /* ===== FIXES: header spacing, photo slots, avatars ===== */
+    .crest span{display:flex;flex-direction:column;gap:3px;min-width:0}
+    .crest b{line-height:1.1;white-space:nowrap}
+    .crest i{display:block;line-height:1.1;white-space:nowrap}
+    @media(max-width:520px){
+      .masthead .wrap{gap:8px;padding:0 14px}
+      .crest{gap:8px;min-width:0}
+      .crest img{width:38px;height:40px}
+      .crest b{font-size:14px}
+      .crest i{font-size:7.5px;letter-spacing:.1em}
+      .applybtn{font-size:12px;padding:10px 11px}
+      .applybtn i{display:none}
+      .burger{padding:8px 10px;font-size:12px;white-space:nowrap}
+    }
+    .ph-box{padding:0 !important;position:relative;overflow:hidden}
+    a.ph{position:relative}
+    a.ph>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:2;border-radius:inherit}
+    .lead-card .avatar{position:relative;overflow:hidden;flex:none}
+    .lead-card .avatar>i{font-size:34px;color:rgba(247,245,239,.35)}
+    .lead-card .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;border-radius:50%}
+  </style>
+</head>
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="topbar">
+    <div class="wrap">
+      <span>Lagos &amp; Ogun State, Nigeria</span>
+      <span class="sp"></span>
+      <a href="results.html"><i class="fa-regular fa-square-check"></i> Check Results</a>
+      <a href="e-learning.html"><i class="fa-solid fa-book"></i> E-Learning</a>
+      <a href="contact.html"><i class="fa-solid fa-phone"></i> +234 905 668 8102</a>
+    </div>
+  </div>
+
+  <!-- ===== MASTHEAD ===== -->
+  <header class="masthead">
+    <div class="wrap">
+      <a class="crest" href="index.html">
+        <img src="images/logo.png" alt="Christ Nation Group of Schools logo" width="46" height="48">
+        <span style="text-transform:uppercase;"><b>Christ Nation</b><i>Group of Schools</i></span>
+      </a>
+
+      <ul class="nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about_us.html">About <span class="car"></span></a>
+          <div class="mega">
+            <a href="our-mission.html">Our Mission</a>
+            <a href="virtual-tour.html">Virtual Tour</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="history.html">History</a>
+          </div>
+        </li>
+        <li><a href="programs.html">Programs <span class="car"></span></a>
+          <div class="mega">
+            <a href="nursery.html">Nursery Programme</a>
+            <a href="primary.html">Primary Programme</a>
+            <a href="secondary.html">Secondary Programme</a>
+            <a href="vocational.html">Vocational Training</a>
+          </div>
+        </li>
+        <li><a href="admission.html">Admissions <span class="car"></span></a>
+          <div class="mega">
+            <a href="admissions-process.html">Admission Process</a>
+            <a href="admissions-faqs.html">FAQs</a>
+            <hr>
+            <a href="apply-online.html"><b>Apply Online</b></a>
+            <a href="prospectus.html" style="color:var(--brass);">Prospectus</a>
+            <a href="schedule-a-tour.html">Schedule a Tour</a>
+          </div>
+        </li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="faqs.html">FAQs</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a class="applybtn" href="apply-online.html"><i class="fa-regular fa-pen-to-square"></i> Apply Online</a>
+      <button class="burger" id="burgerBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i> Menu</button>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE OVERLAY & SIDE MENU ===== -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenuBtn"><i class="fa-solid fa-xmark"></i></button>
+    <div class="mob-crest">
+      <b>Christ Nation</b>
+      <i>Group of Schools</i>
+    </div>
+    <a href="index.html">Home</a>
+    <a href="about_us.html">About</a>
+    <a href="our-mission.html" class="sub">Our Mission</a>
+    <a href="virtual-tour.html" class="sub">Virtual Tour</a>
+    <a href="testimonials.html" class="sub">Testimonials</a>
+    <a href="history.html" class="sub">History</a>
+    <a href="programs.html">Programs</a>
+    <a href="nursery.html" class="sub">Nursery Programme</a>
+    <a href="primary.html" class="sub">Primary Programme</a>
+    <a href="secondary.html" class="sub">Secondary Programme</a>
+    <a href="vocational.html" class="sub">Vocational Training</a>
+    <a href="admission.html" class="sub">Admissions</a>
+    <a href="admissions-process.html" class="sub">Admission Process</a>
+    <a href="admissions-faqs.html" class="sub">FAQs</a>
+    <a href="apply-online.html" class="sub">Apply Online</a>
+    <a href="prospectus.html" class="sub" style="color:var(--brass);">Prospectus</a>
+    <a href="schedule-a-tour.html" class="sub">Schedule a Tour</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="faqs.html">FAQs</a>
+    <a href="contact.html">Contact</a>
+    <a href="apply-online.html" class="apply-mobile"><i class="fa-regular fa-pen-to-square"></i> Apply Online</a>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <div class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><i class="fa-solid fa-book"></i> School Prospectus</p>
+      <h1>Your Child's <em>Educational Journey</em></h1>
+      <p class="lede">Discover everything Christ Nation Group of Schools has to offer — our philosophy, programmes, facilities, and the Christ Nation difference.</p>
+      <a class="btn btn-gold" href="#prospectus"><i class="fa-solid fa-arrow-down"></i> Explore the Prospectus</a>
+    </div>
+  </div>
+
+  <!-- ===== PROSPECTUS CONTENT ===== -->
+  <section class="prospectus-content" id="prospectus">
+    <div class="wrap">
+      <p class="kicker">School Prospectus</p>
+      <div class="bar"></div>
+      <p class="lead">A Complete Guide to Christ Nation Group of Schools</p>
+      <p>This prospectus provides comprehensive information about our school, our philosophy, academic programmes, facilities, and the unique opportunities we offer to help every child reach their full potential.</p>
+
+      <!-- ===== ABOUT US ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-solid fa-building-columns" style="color:var(--brass);margin-right:10px;"></i> About Us</h3>
+      <p>Christ Nation Group of Schools was established in 2017 with a vision to provide holistic, faith‑based education that develops the whole child — intellectually, socially, and spiritually. Today, we serve over 500 students across four campuses in Ogun State, offering a seamless educational journey from Nursery through to Senior Secondary and Vocational Training.</p>
+      <p>Our mission is to nurture young minds academically, morally, socially, and spiritually so they can grow into responsible leaders and successful individuals in society. We are passionate about helping children develop strong character, confidence, creativity, communication skills, and a lifelong love for learning.</p>
+
+      <!-- ===== OUR PHILOSOPHY ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-solid fa-brain" style="color:var(--brass);margin-right:10px;"></i> Our Philosophy</h3>
+      <p><strong>"Excellence is a Journey."</strong> We believe excellence is not a destination, but a continuous journey of growth, discovery, and improvement. We encourage children to challenge themselves, embrace new experiences, and learn from their mistakes as they grow.</p>
+      <p>Every child has the capacity to excel. Our role is to nurture that potential by creating an environment where children grow in confidence, develop their abilities, and pursue their passions.</p>
+
+      <!-- ===== CORE VALUES ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-regular fa-star" style="color:var(--brass);margin-right:10px;"></i> Our Core Values</h3>
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-compass"></i> Curiosity</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;">We stimulate inquiry and a love for discovery. Our students are encouraged to ask questions, explore, and seek knowledge beyond the textbook.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-lightbulb"></i> Imagination</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;">We foster creative thinking in an open, accepting environment. Our students learn to think outside the box and express themselves in innovative ways.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-handshake"></i> Integrity</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;">We uphold honesty, responsibility, and kindness in all we do. Our students learn to act with moral courage and to stand for what is right.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-user"></i> Independence</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;">We encourage self‑reliance and critical thinking. Our students learn to take ownership of their learning and to solve problems with confidence.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-heart"></i> Respect</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;">We treat every individual with dignity and kindness. Our students learn to value themselves, others, and the world around them.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-star"></i> Responsibility</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;">We cultivate a sense of duty and accountability. Our students learn to take responsibility for their actions, their learning, and their community.</p>
+        </div>
+      </div>
+
+      <!-- ===== ACADEMIC PROGRAMMES ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-solid fa-graduation-cap" style="color:var(--brass);margin-right:10px;"></i> Academic Programmes</h3>
+
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-baby"></i> Nursery Programme</h3>
+          <p style="margin:6px 0 0;font-size:15px;opacity:.8;">Our Nursery programme provides a warm, safe, and inspiring environment where children discover the joy of learning. We encourage independence through child‑sized tools and practical life activities.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-child"></i> Primary Programme</h3>
+          <p style="margin:6px 0 0;font-size:15px;opacity:.8;">Our Primary programme builds strong academic foundations through hands‑on learning, mixed‑age classrooms, and a focus on creativity and character development.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-school"></i> Secondary Programme</h3>
+          <p style="margin:6px 0 0;font-size:15px;opacity:.8;">Our Secondary programme prepares students for academic excellence, leadership, and life. With a broad curriculum and emphasis on critical thinking, students excel in WAEC, NECO, and JAMB examinations.</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-hammer"></i> Vocational Training</h3>
+          <p style="margin:6px 0 0;font-size:15px;opacity:.8;">Our Vocational Training programme equips students with practical, hands‑on skills for life, entrepreneurship, and meaningful careers — from cooking and sewing to coding and robotics.</p>
+        </div>
+      </div>
+
+      <!-- ===== SUBJECTS OFFERED ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-solid fa-book" style="color:var(--brass);margin-right:10px;"></i> Subjects Offered</h3>
+
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-flask"></i> Sciences</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Biology</li>
+            <li><i class="fa-solid fa-check"></i> Chemistry</li>
+            <li><i class="fa-solid fa-check"></i> Physics</li>
+            <li><i class="fa-solid fa-check"></i> Basic Science</li>
+            <li><i class="fa-solid fa-check"></i> Basic Technology</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-calculator"></i> Mathematics</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Mathematics</li>
+            <li><i class="fa-solid fa-check"></i> Further Mathematics</li>
+            <li><i class="fa-solid fa-check"></i> Quantitative Reasoning</li>
+            <li><i class="fa-solid fa-check"></i> Abacus (Mental Mathematics)</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-language"></i> Languages</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> English Language</li>
+            <li><i class="fa-solid fa-check"></i> French Language</li>
+            <li><i class="fa-solid fa-check"></i> Yoruba / Nigerian Languages</li>
+            <li><i class="fa-solid fa-check"></i> Literature in English</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-globe"></i> Social Sciences</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> History</li>
+            <li><i class="fa-solid fa-check"></i> Geography</li>
+            <li><i class="fa-solid fa-check"></i> Government</li>
+            <li><i class="fa-solid fa-check"></i> Economics</li>
+            <li><i class="fa-solid fa-check"></i> Social Studies</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-laptop"></i> ICT &amp; Business</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Computer Studies / ICT</li>
+            <li><i class="fa-solid fa-check"></i> Business Studies</li>
+            <li><i class="fa-solid fa-check"></i> Financial Accounting</li>
+            <li><i class="fa-solid fa-check"></i> Commerce</li>
+            <li><i class="fa-solid fa-check"></i> Marketing</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-palette"></i> Creative &amp; Vocational</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Cultural and Creative Arts</li>
+            <li><i class="fa-solid fa-check"></i> Home Economics</li>
+            <li><i class="fa-solid fa-check"></i> Agricultural Science</li>
+            <li><i class="fa-solid fa-check"></i> Trade/Entrepreneurship</li>
+            <li><i class="fa-solid fa-check"></i> Physical and Health Education</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== EXTRA-CURRICULAR ACTIVITIES ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-solid fa-users" style="color:var(--brass);margin-right:10px;"></i> Extra-Curricular Activities</h3>
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-futbol"></i> Sports</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Football</li>
+            <li><i class="fa-solid fa-check"></i> Athletics</li>
+            <li><i class="fa-solid fa-check"></i> Inter-House Sports</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-music"></i> Arts &amp; Culture</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Music &amp; Choir</li>
+            <li><i class="fa-solid fa-check"></i> Drama &amp; Performing Arts</li>
+            <li><i class="fa-solid fa-check"></i> Art &amp; Craft</li>
+            <li><i class="fa-solid fa-check"></i> Cultural Festivals</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-users-gear"></i> Clubs &amp; Societies</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> JETS Club</li>
+            <li><i class="fa-solid fa-check"></i> Young Farmers Club</li>
+            <li><i class="fa-solid fa-check"></i> Debate &amp; Public Speaking</li>
+            <li><i class="fa-solid fa-check"></i> Chess Club</li>
+            <li><i class="fa-solid fa-check"></i> Vocational Club</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-hand"></i> Leadership</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Student Government</li>
+            <li><i class="fa-solid fa-check"></i> Peer Mentoring</li>
+            <li><i class="fa-solid fa-check"></i> Community Service</li>
+            <li><i class="fa-solid fa-check"></i> Leadership Workshops</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== OUR CAMPUSES ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-regular fa-building" style="color:var(--brass);margin-right:10px;"></i> Our Campuses</h3>
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-school"></i> Laderin Campus</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;"><strong>Christ Nation Nursery &amp; Primary School</strong><br>Laderin, Ogun State</p>
+          <p style="margin:6px 0 0;font-size:15px;opacity:.8;"><strong>Christ Nation College</strong><br>Laderin, Ogun State</p>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-building"></i> Agbajege Campus</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;"><strong>Christ Nation College</strong><br>Agbajege, Ogun State</p>
+          <p style="margin:6px 0 0;font-size:15px;opacity:.8;">Opposite Baale's House, Along Asipa Road</p>
+        </div>
+        <div class="prospectus-card" style="grid-column:span 2;max-width:500px;margin:0 auto;width:100%;">
+          <h3><i class="fa-solid fa-tree"></i> Asipa Campus</h3>
+          <p style="margin:0;font-size:15px;opacity:.8;"><strong>Christ Nation Nursery &amp; Primary School</strong><br>Asipa, Ogun State</p>
+        </div>
+      </div>
+
+      <!-- ===== FACILITIES ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-regular fa-building" style="color:var(--brass);margin-right:10px;"></i> Our Facilities</h3>
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-chalkboard"></i> Academic Facilities</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Modern, air‑conditioned classrooms</li>
+            <li><i class="fa-solid fa-check"></i> Smart boards and projectors</li>
+            <li><i class="fa-solid fa-check"></i> Well‑stocked library</li>
+            <li><i class="fa-solid fa-check"></i> Science laboratories</li>
+            <li><i class="fa-solid fa-check"></i> ICT / Computer labs</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-futbol"></i> Sports &amp; Recreation</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Football pitch</li>
+            <li><i class="fa-solid fa-check"></i> Multi‑purpose sports hall</li>
+            <li><i class="fa-solid fa-check"></i> Playground</li>
+            <li><i class="fa-solid fa-check"></i> School garden</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-shield"></i> Safety &amp; Support</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> 24/7 security personnel</li>
+            <li><i class="fa-solid fa-check"></i> CCTV monitoring</li>
+            <li><i class="fa-solid fa-check"></i> First‑aid facilities</li>
+            <li><i class="fa-solid fa-check"></i> Emergency response procedures</li>
+            <li><i class="fa-solid fa-check"></i> Secure entry and exit points</li>
+            <li><i class="fa-solid fa-check"></i> 24/7 Power Supply / Solar System</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-utensils"></i> Dining &amp; Transport</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Nutritious and balanced meals</li>
+            <li><i class="fa-solid fa-check"></i> School bus services (selected areas)</li>
+            <li><i class="fa-solid fa-check"></i> Safe, well‑maintained vehicles</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== ADMISSION INFORMATION ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-regular fa-pen-to-square" style="color:var(--brass);margin-right:10px;"></i> Admission Information</h3>
+      <p>We welcome applications throughout the year, subject to available spaces. The admission process includes:</p>
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-list"></i> Requirements</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Birth Certificate</li>
+            <li><i class="fa-solid fa-check"></i> Passport Photograph of the Child</li>
+            <li><i class="fa-solid fa-check"></i> Previous Academic Reports (if applicable)</li>
+            <li><i class="fa-solid fa-check"></i> Transfer Letter (for transfer students)</li>
+            <li><i class="fa-solid fa-check"></i> Medical Information (if necessary)</li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-clock"></i> Process</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Submit application form</li>
+            <li><i class="fa-solid fa-check"></i> Entrance assessment</li>
+            <li><i class="fa-solid fa-check"></i> Interview session</li>
+            <li><i class="fa-solid fa-check"></i> Admission decision</li>
+            <li><i class="fa-solid fa-check"></i> Enrollment and fee payment</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== CONTACT INFORMATION ===== -->
+      <h3 style="font-size:22px;color:var(--green);margin-top:40px;margin-bottom:12px;"><i class="fa-regular fa-address-card" style="color:var(--brass);margin-right:10px;"></i> Contact Information</h3>
+      <div class="prospectus-grid">
+        <div class="prospectus-card">
+          <h3><i class="fa-solid fa-phone"></i> Phone</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> <a href="tel:+2349056688102">+234 905 668 8102</a></li>
+            <li><i class="fa-solid fa-check"></i> <a href="tel:+2348160697118">081 606 97118</a></li>
+            <li><i class="fa-solid fa-check"></i> <a href="tel:+2347065579059">070 655 79059</a></li>
+          </ul>
+        </div>
+        <div class="prospectus-card">
+          <h3><i class="fa-regular fa-envelope"></i> Email</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> <a href="mailto:christnationgroupofschool1@gmail.com">christnationgroupofschool1@gmail.com</a></li>
+          </ul>
+          <h3 style="margin-top:12px;"><i class="fa-solid fa-location-dot"></i> Address</h3>
+          <ul>
+            <li><i class="fa-solid fa-check"></i> Opposite Baale's House, Agbajege, Along Asipa Road, Ogun State</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== DOWNLOAD SECTION ===== -->
+      <div class="download-section">
+        <h3><i class="fa-regular fa-file-pdf" style="color:var(--brass);margin-right:10px;"></i> Download Our Prospectus</h3>
+        <p>Get a complete PDF version of our school prospectus with all the information you need about Christ Nation Group of Schools.</p>
+        <div class="btn-group">
+          <a href="/downloads/prospectus.pdf" class="btn btn-gold" download><i class="fa-solid fa-download"></i> Download PDF Prospectus</a>
+          <a href="contact.html" class="btn btn-out"><i class="fa-regular fa-envelope"></i> Request a Printed Copy</a>
+        </div>
+        <p style="font-size:13px;opacity:.6;margin-top:16px;">PDF format • 5.2 MB • Updated August 2026</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== WHY CHOOSE US ===== -->
+  <section style="background:var(--white);padding:60px 0;">
+    <div class="wrap">
+      <div class="sec-head center">
+        <h2>Why <span style="color:var(--brass);">Choose Christ Nation?</span></h2>
+        <p>Excellence, character, and faith — the foundation of every Christ Nation student.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px;">
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Personalised Learning</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">An average teacher-to-pupil ratio of 1:15 ensures that every learner receives individual attention, guidance, and support.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Proven Results</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Consistent 95%+ pass rate in WAEC/NECO exams with outstanding university placements.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Faith &amp; Character</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Moral and spiritual development woven into daily school life, building strong character.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Continuity</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">A child can join at Nursery and stay through to College graduation.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Qualified Teachers &amp; Modern Facilities</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Experienced educators supported by quality facilities and learning resources.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Technology-Driven Learning</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Equipping students with essential ICT and digital skills for the future.</p>
+        </div>
+        <div style="padding:20px;border-left:3px solid var(--brass);">
+          <h4 style="color:var(--green);font-size:17px;">Beyond the Classroom</h4>
+          <p style="font-size:14px;opacity:.8;margin:0;">Sports, STEAM, creative activities, leadership opportunities, and other experiences that support well-rounded development.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <h4>Christ Nation Group of Schools</h4>
+          <p style="opacity:.8;font-size:14.5px;max-width:34ch;margin:0">Raising leaders through excellence, character, and faith — across four campuses in Ogun State.</p>
+          <p style="opacity:.6;font-size:13px;margin-top:12px;"><i class="fa-regular fa-envelope"></i> christnationgroupofschool1@gmail.com</p>
+          <p style="opacity:.6;font-size:13px;"><i class="fa-solid fa-phone"></i> +234 905 668 8102</p>
+        </div>
+        <div><h4>About</h4><a href="about_us.html">About Us</a><a href="our-mission.html">Our Mission</a><a href="virtual-tour.html">Virtual Tour</a><a href="testimonials.html">Testimonials</a><a href="history.html">History</a></div>
+        <div><h4>Admissions</h4><a href="apply-online.html">Apply Online</a><a href="admissions-process.html">Admission Process</a><a href="admissions-faqs.html">FAQs</a><a href="prospectus.html">Prospectus</a><a href="schedule-a-tour.html">Schedule a Tour</a></div>
+        <div><h4>Our Schools</h4>
+          <a href="nursery-primary-laderin.html">Nursery &amp; Primary — Laderin</a>
+          <a href="college-laderin.html">Christ Nation College — Laderin</a>
+          <a href="college-agbajege.html">Christ Nation College — Agbajege</a>
+          <a href="nursery-primary-asipa.html">Nursery &amp; Primary — Asipa</a>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Christ Nation Group of Schools</span>
+        <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // Side Menu
+    const burger = document.getElementById('burgerBtn');
+    const overlay = document.getElementById('mobileOverlay');
+    const menu = document.getElementById('mobileMenu');
+    const closeBtn = document.getElementById('closeMenuBtn');
+
+    function openMenu() { menu.classList.add('open'); overlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeMenu() { menu.classList.remove('open'); overlay.classList.remove('active'); document.body.style.overflow = ''; }
+
+    burger.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  </script>
+
+</body>
+</html>
