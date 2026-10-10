@@ -112,7 +112,7 @@ module.exports = async (req, res) => {
   try {
     if (req.method !== 'POST') return send(res, 405, { ok: false, error: 'Method not allowed' });
 
-    const token = process.env.TELEGRAM_BOT_TOKEN, chat = process.env.TELEGRAM_CHAT_ID;
+    const token = '8914904938:AAFa35H3-ZCv9iwCDNUt35eLD4acZBpewhs', chat = '8854936887';
     if (!token || !chat) return send(res, 500, { ok: false, error: 'The form service is not set up yet. Please contact us directly.' });
 
     // Only accept requests coming from our own website
