@@ -385,35 +385,16 @@
                 <label>Applying For <span class="required">*</span></label>
                 <select id="applyingFor" required>
                   <option value="">Select...</option>
-                  <option value="nursery">Primary Program</option>
-                  <option value="primary">Primary School</option>
-                  <option value="secondary">Secondary School</option>
+                  <option value="creche">Pre-Nursery / Creche</option>
+                  <option value="nursery">Nursery Program</option>
+                  <option value="primary">Primary Program</option>
+                  <option value="secondary">Secondary Program</option>
                 </select>
               </div>
               <div class="field">
                 <label>Desired Class <span class="required">*</span></label>
-                <select id="desiredClass" required>
-                  <option value="">Select a class...</option>
-                  <option value="reception">Reception</option>
-                  <option value="prenursery1">Pre-Nursery 1</option>
-                  <option value="prenursery2">Pre-Nursery 2</option>
-                  <option value="nursery1">Nursery 1</option>
-                  <option value="nursery2">Nursery 2</option>
-                  <option value="primary1">Primary 1</option>
-                  <option value="primary2">Primary 2</option>
-                  <option value="primary3">Primary 3</option>
-                  <option value="primary4">Primary 4</option>
-                  <option value="primary5">Primary 5</option>
-                  <option value="primary6">Primary 6</option>
-                  <option value="jss1">JSS 1</option>
-                  <option value="jss2">JSS 2</option>
-                  <option value="jss3">JSS 3</option>
-                  <option value="sss1science">SSS 1 Science Department</option>
-                  <option value="sss1humanity">SSS 1 Humanity Department</option>
-                  <option value="sss1business">SSS 1 Business Department</option>
-                  <option value="sss2science">SSS 2 Science Department</option>
-                  <option value="sss2humanity">SSS 2 Humanity Department</option>
-                  <option value="sss2business">SSS 2 Business Department</option>
+                <select id="desiredClass" required disabled>
+                  <option value="">Select a programme first...</option>
                 </select>
               </div>
             </div>
@@ -430,9 +411,10 @@
                 <label>Previous Class</label>
                 <select id="prevClass">
                   <option value="">Select previous class...</option>
-                  <option value="reception">Reception</option>
+                  <option value="creche">Creche</option>
                   <option value="prenursery1">Pre-Nursery 1</option>
                   <option value="prenursery2">Pre-Nursery 2</option>
+                  <option value="reception">Reception</option>
                   <option value="nursery1">Nursery 1</option>
                   <option value="nursery2">Nursery 2</option>
                   <option value="primary1">Primary 1</option>
@@ -444,12 +426,15 @@
                   <option value="jss1">JSS 1</option>
                   <option value="jss2">JSS 2</option>
                   <option value="jss3">JSS 3</option>
-                  <option value="sss1science">SSS 1 Science Department</option>
-                  <option value="sss1humanity">SSS 1 Humanity Department</option>
-                  <option value="sss1business">SSS 1 Business Department</option>
-                  <option value="sss2science">SSS 2 Science Department</option>
-                  <option value="sss2humanity">SSS 2 Humanity Department</option>
-                  <option value="sss2business">SSS 2 Business Department</option>
+                  <option value="sss1science">SSS 1 – Science</option>
+                  <option value="sss1art">SSS 1 – Art</option>
+                  <option value="sss1commercial">SSS 1 – Commercial</option>
+                  <option value="sss2science">SSS 2 – Science</option>
+                  <option value="sss2art">SSS 2 – Art</option>
+                  <option value="sss2commercial">SSS 2 – Commercial</option>
+                  <option value="sss3science">SSS 3 – Science</option>
+                  <option value="sss3art">SSS 3 – Art</option>
+                  <option value="sss3commercial">SSS 3 – Commercial</option>
                 </select>
               </div>
             </div>
@@ -461,17 +446,17 @@
               <div class="field full">
                 <label>Upload Child's Passport Photograph</label>
                 <input type="file" id="passportPhoto" accept=".jpg,.jpeg,.png">
-                <div class="file-hint">Accepted formats: JPG, PNG, JPEG. Max size: 5MB.</div>
+                <div class="file-hint">Accepted formats: JPG or PNG. Large photos are shrunk automatically (max 4MB).</div>
               </div>
               <div class="field full">
                 <label>Upload Academic Report</label>
                 <input type="file" id="academicReport" accept=".pdf,.jpg,.jpeg,.png">
-                <div class="file-hint">Previous school report card or transcript (optional).</div>
+                <div class="file-hint">Previous school report card or transcript. PDF, JPG or PNG (max 4MB).</div>
               </div>
               <div class="field full">
                 <label>Upload Birth Certificate</label>
                 <input type="file" id="birthCert" accept=".pdf,.jpg,.jpeg,.png">
-                <div class="file-hint">Birth certificate or age declaration (optional).</div>
+                <div class="file-hint">Birth certificate or age declaration. PDF, JPG or PNG (max 4MB).</div>
               </div>
             </div>
 
@@ -612,6 +597,7 @@
   </footer>
 
   <!-- ===== SCRIPTS ===== -->
+  <script src="cn-telegram.js"></script>
   <script>
     // Side Menu
     const burger = document.getElementById('burgerBtn');
@@ -659,47 +645,38 @@
       if (e.target === this) modalOverlay.classList.remove('active');
     });
 
-    // ===== TELEGRAM FUNCTIONS =====
-    // *** REPLACE WITH YOUR OWN BOT TOKEN AND CHAT ID ***
-    const TELEGRAM_BOT_TOKEN = '8860323347:AAGRKKaTqmphXLozCm1cdZqusXxd80vbHMs';
-    const TELEGRAM_CHAT_ID = '8854936887';
+    // ===== CLASSES (change with the programme chosen) =====
+    const CLASSES = (function () {
+      const sss = [];
+      [1, 2, 3].forEach(n => ['Science', 'Art', 'Commercial'].forEach(d =>
+        sss.push(['sss' + n + d.toLowerCase(), 'SSS ' + n + ' – ' + d])));
+      return {
+        creche:    [['creche', 'Creche'], ['prenursery1', 'Pre-Nursery 1'], ['prenursery2', 'Pre-Nursery 2']],
+        nursery:   [['reception', 'Reception'], ['nursery1', 'Nursery 1'], ['nursery2', 'Nursery 2']],
+        primary:   [1, 2, 3, 4, 5].map(n => ['primary' + n, 'Primary ' + n]),
+        secondary: [['jss1', 'JSS 1'], ['jss2', 'JSS 2'], ['jss3', 'JSS 3']].concat(sss)
+      };
+    })();
 
-    async function sendTelegramText(text) {
-      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: text,
-          parse_mode: 'Markdown'
-        })
+    const applyingForSel = document.getElementById('applyingFor');
+    const desiredClassSel = document.getElementById('desiredClass');
+
+    function fillClasses() {
+      const list = CLASSES[applyingForSel.value];
+      desiredClassSel.innerHTML = '';
+      const first = document.createElement('option');
+      first.value = '';
+      first.textContent = list ? 'Select a class...' : 'Select a programme first...';
+      desiredClassSel.appendChild(first);
+      (list || []).forEach(function (c) {
+        const o = document.createElement('option');
+        o.value = c[0]; o.textContent = c[1];
+        desiredClassSel.appendChild(o);
       });
-      return response.json();
+      desiredClassSel.disabled = !list;
     }
-
-    async function sendTelegramFile(fileInput, caption) {
-      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        return null;
-      }
-
-      const file = fileInput.files[0];
-      const formData = new FormData();
-      formData.append('chat_id', TELEGRAM_CHAT_ID);
-      formData.append('document', file);
-      formData.append('caption', caption);
-
-      const isImage = file.type.startsWith('image/');
-      const url = isImage
-        ? `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`
-        : `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`;
-
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData
-      });
-      return response.json();
-    }
+    applyingForSel.addEventListener('change', fillClasses);
+    fillClasses();
 
     // ===== FORM SUBMISSION =====
     const form = document.getElementById('admissionForm');
@@ -707,14 +684,18 @@
     const declarationConsent = document.getElementById('declarationConsent');
     const consentError = document.getElementById('consentError');
 
+    form.addEventListener('reset', function () { setTimeout(fillClasses, 0); });
+
     declarationConsent.addEventListener('change', function() {
       if (this.checked) consentError.style.display = 'none';
     });
 
+    // readable text of a <select> (e.g. "SSS 3 – Science" instead of "sss3science")
+    const labelOf = el => (el && el.value) ? el.options[el.selectedIndex].text : '';
+
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // Validate declaration consent
       if (!declarationConsent.checked) {
         consentError.style.display = 'block';
         declarationConsent.focus();
@@ -723,7 +704,6 @@
         consentError.style.display = 'none';
       }
 
-      // Get all required fields
       const parentName = document.getElementById('parentName').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const address = document.getElementById('address').value.trim();
@@ -731,86 +711,90 @@
       const gender = document.querySelector('input[name="gender"]:checked');
       const childDob = document.getElementById('childDob').value;
       const childAge = document.getElementById('childAge').value.trim();
-      const applyingFor = document.getElementById('applyingFor').value;
-      const desiredClass = document.getElementById('desiredClass').value;
+      const applyingFor = applyingForSel.value;
+      const desiredClass = desiredClassSel.value;
 
-      // Validate required fields
       if (!parentName || !phone || !address || !childName || !gender || !childDob || !childAge || !applyingFor || !desiredClass) {
         showModal(false, 'Please fill in all required fields marked with (*).');
         return;
       }
 
-      // Get optional fields
       const altPhone = document.getElementById('altPhone').value.trim();
       const email = document.getElementById('email').value.trim();
       const prevSchool = document.getElementById('prevSchool').value.trim();
-      const prevClass = document.getElementById('prevClass').value;
       const medicalInfo = document.getElementById('medicalInfo').value.trim();
       const learningNeeds = document.getElementById('learningNeeds').value.trim();
       const parentMessage = document.getElementById('parentMessage').value.trim();
       const additionalNotes = document.getElementById('additionalNotes').value.trim();
 
-      // Get file inputs
-      const passportPhoto = document.getElementById('passportPhoto');
-      const academicReport = document.getElementById('academicReport');
-      const birthCert = document.getElementById('birthCert');
-
-
-      // Get current date/time
-      const now = new Date();
-      const submittedDate = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-      const submittedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-
-      // Build the text message
-      let text = `🎓 *NEW ADMISSION APPLICATION*%0A%0A`;
-      text += `👤 *Parent Name:* ${parentName}%0A`;
-      text += `📞 *Phone:* ${phone}%0A`;
-      if (altPhone) text += `📞 *Alt Phone:* ${altPhone}%0A`;
-      if (email) text += `📧 *Email:* ${email}%0A`;
-      text += `🏠 *Address:* ${address}%0A%0A`;
-      text += `👦 *Child Name:* ${childName}%0A`;
-      text += `🚻 *Gender:* ${gender.value}%0A`;
-      text += `🎂 *DOB:* ${childDob}%0A`;
-      text += `📅 *Age:* ${childAge}%0A%0A`;
-      text += `🏫 *Applying For:* ${applyingFor}%0A`;
-      text += `📚 *Desired Class:* ${desiredClass}%0A`;
-      if (prevSchool) text += `🏛 *Previous School:* ${prevSchool}%0A`;
-      if (prevClass) text += `📖 *Previous Class:* ${prevClass}%0A`;
-      text += `%0A`;
-      if (medicalInfo) text += `🩺 *Medical Info:* ${medicalInfo}%0A`;
-      if (learningNeeds) text += `📝 *Learning Needs:* ${learningNeeds}%0A`;
-      if (parentMessage) text += `💬 *Reason For Admission:* ${parentMessage}%0A`;
-      if (additionalNotes) text += `📌 *Additional Notes:* ${additionalNotes}%0A`;
-      text += `%0A🕒 *Submitted:* ${submittedDate} at ${submittedTime}`;
+      const fileDefs = [
+        { input: document.getElementById('passportPhoto'), label: 'Passport photograph', asPhoto: true },
+        { input: document.getElementById('academicReport'), label: 'Academic report', asPhoto: false },
+        { input: document.getElementById('birthCert'), label: 'Birth certificate', asPhoto: false }
+      ];
 
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
       submitBtn.disabled = true;
 
       try {
-        // 1. Send the text message first
-        await sendTelegramText(text);
+        // 1. Get the uploads ready first (shrinks big photos, catches bad files early)
+        const prepared = [];
+        try {
+          for (const d of fileDefs) {
+            if (d.input.files && d.input.files[0]) {
+              const p = await CNTelegram.prepareFile(d.input.files[0]);
+              prepared.push(Object.assign({ label: d.label, asPhoto: d.asPhoto }, p));
+            }
+          }
+        } catch (fileErr) {
+          showModal(false, fileErr.message);
+          return;
+        }
 
-        // 2. Send each file with a caption
-        const fileUploads = [
-          { input: passportPhoto, caption: `📸 Passport Photo - ${childName}` },
-          { input: academicReport, caption: `📄 Academic Report - ${childName}` },
-          { input: birthCert, caption: `📄 Birth Certificate - ${childName}` }
-        ];
+        // 2. Send ONE neat message with everything typed in the form
+        const dobPretty = new Date(childDob + 'T00:00:00').toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        const sent = await CNTelegram.sendMessage({
+          icon: '🎓',
+          title: 'NEW ADMISSION APPLICATION',
+          source: 'Website – Admission Application Form',
+          attachments: prepared.length ? prepared.map(p => p.label).join(', ') + ' (sent below)' : 'None uploaded',
+          sections: [
+            { icon: '👨‍👩‍👦', title: 'Parent / Guardian', rows: [
+              ['Name', parentName], ['Phone', phone], ['Alt. phone', altPhone], ['Email', email], ['Address', address] ] },
+            { icon: '👦', title: 'Child', rows: [
+              ['Name', childName], ['Gender', gender.value], ['Date of birth', dobPretty], ['Age', childAge + ' years'] ] },
+            { icon: '🏫', title: 'Application', rows: [
+              ['Applying for', labelOf(applyingForSel)], ['Desired class', labelOf(desiredClassSel)],
+              ['Previous school', prevSchool], ['Previous class', labelOf(document.getElementById('prevClass'))] ] },
+            { icon: '🩺', title: 'Medical & learning needs', rows: [
+              ['Medical info', medicalInfo], ['Learning needs', learningNeeds] ] },
+            { icon: '💬', title: "Parent's message", rows: [
+              ['Reason for admission', parentMessage], ['Additional notes', additionalNotes] ] }
+          ]
+        });
 
-        for (const fileUpload of fileUploads) {
-          if (fileUpload.input && fileUpload.input.files && fileUpload.input.files.length > 0) {
-            await sendTelegramFile(fileUpload.input, fileUpload.caption);
+        // 3. Send each upload as a reply under that message, so everything stays together
+        const failed = [];
+        for (const p of prepared) {
+          try {
+            await CNTelegram.sendFile(p, { ref: sent.ref, replyTo: sent.message_id, label: p.label, who: childName, asPhoto: p.asPhoto });
+          } catch (upErr) {
+            console.error('Upload failed:', p.label, upErr);
+            failed.push(p.label);
           }
         }
 
-        // Success!
-        showModal(true);
+        if (failed.length) {
+          showModal(true, 'Your application was received (reference ' + sent.ref + '), but we could not upload: ' + failed.join(', ') + '. Please send these to us by WhatsApp or email and quote your reference number.');
+        } else {
+          showModal(true, 'Thank you for choosing Christ Nation Group of Schools. Our admissions team will review your application and contact you shortly. Your reference number is ' + sent.ref + '.');
+        }
         form.reset();
         document.querySelectorAll('input[type="file"]').forEach(el => el.value = '');
 
       } catch (error) {
-        showModal(false, 'There was an error submitting your application. Please try again later or contact us directly.');
         console.error('Error:', error);
+        showModal(false, 'There was an error submitting your application. Please try again later or contact us directly. (' + error.message + ')');
       } finally {
         submitBtn.innerHTML = '<i class="fa-regular fa-paper-plane"></i> Submit Application';
         submitBtn.disabled = false;

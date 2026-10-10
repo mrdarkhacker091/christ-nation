@@ -589,6 +589,7 @@
   </footer>
 
   <!-- ===== SCRIPTS ===== -->
+  <script src="cn-telegram.js"></script>
   <script>
     // Side Menu
     const burger = document.getElementById('burgerBtn');
@@ -612,13 +613,9 @@
     overlay.addEventListener('click', closeMenu);
     menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
 
-    // Telegram bot integration for enquiry form
+    // Enquiry form -> Telegram (through /api/telegram)
     const form = document.getElementById('enquiryForm');
     const feedback = document.getElementById('formFeedback');
-
-    // *** REPLACE WITH YOUR OWN BOT TOKEN AND CHAT ID ***
-    const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
-    const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -636,33 +633,35 @@
         return;
       }
 
-      const text = `📩 *New Enquiry from Christ Nation Website (Virtual Tour)*%0A%0A👤 *Name:* ${name}%0A📧 *Email:* ${email}%0A📞 *Phone:* ${phone}%0A🏫 *Campus:* ${campus}%0A💬 *Message:* ${message}`;
+      const btn = form.querySelector('button[type="submit"]');
+      const btnHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+      btn.disabled = true;
 
-      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: text,
-          parse_mode: 'Markdown'
-        })
+      CNTelegram.sendMessage({
+        icon: '📩',
+        title: 'NEW ENQUIRY',
+        source: 'Website – Virtual Tour page enquiry form',
+        sections: [
+          { icon: '👤', title: 'Contact', rows: [['Name', name], ['Email', email], ['Phone', phone]] },
+          { icon: '🏫', title: 'Enquiry', rows: [['Campus', campus], ['Question', message]] }
+        ]
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.ok) {
-          feedback.style.display = 'block';
-          feedback.style.background = 'var(--green)';
-          feedback.textContent = '✅ Your message or query has been sent to our supervisor, we will look into it and contact you later.';
-          form.reset();
-        } else {
-          throw new Error('Telegram API error');
-        }
+      .then(() => {
+        feedback.style.display = 'block';
+        feedback.style.background = 'var(--green)';
+        feedback.textContent = '✅ Your message or query has been sent to our supervisor, we will look into it and contact you later.';
+        form.reset();
       })
       .catch(error => {
         feedback.style.display = 'block';
         feedback.style.background = '#C0392B';
         feedback.textContent = '❌ There was an error sending your message. Please try again later or contact us directly.';
         console.error('Error:', error);
+      })
+      .finally(() => {
+        btn.innerHTML = btnHtml;
+        btn.disabled = false;
       });
     });
   </script>

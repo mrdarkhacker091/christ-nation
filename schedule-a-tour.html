@@ -403,9 +403,10 @@
                 <label>Program Interested In <span class="required">*</span></label>
                 <select id="program" required>
                   <option value="">Select a programme...</option>
-                  <option value="nursery">Primary Program</option>
-                  <option value="primary">Primary</option>
-                  <option value="secondary">Secondary (11 – 18 years)</option>
+                  <option value="creche">Pre-Nursery / Creche</option>
+                  <option value="nursery">Nursery Program</option>
+                  <option value="primary">Primary Program</option>
+                  <option value="secondary">Secondary Program</option>
                   <option value="vocational">Vocational Training (12+)</option>
                   <option value="not-sure">Not sure yet</option>
                 </select>
@@ -484,6 +485,7 @@
   </footer>
 
   <!-- ===== SCRIPTS ===== -->
+  <script src="cn-telegram.js"></script>
   <script>
     // ===== SIDE MENU =====
     const burger = document.getElementById('burgerBtn');
@@ -750,45 +752,33 @@
       const tourDate = formatDate(selectedDate);
       const tourTime = selectedTime;
 
-      // Build Telegram message
-      const text = `📅 *New Tour Booking Request*%0A%0A👤 *Name:* ${firstName} ${lastName}%0A📧 *Email:* ${email}%0A📞 *Phone:* ${phone}%0A📚 *Program:* ${program}%0A📆 *Tour Date:* ${tourDate}%0A🕐 *Tour Time:* ${tourTime}%0A💬 *Comments:* ${comments || 'None'}`;
-
-      // *** REPLACE WITH YOUR OWN BOT TOKEN AND CHAT ID ***
-      const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
-      const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
-
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
       submitBtn.disabled = true;
 
-      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: text,
-          parse_mode: 'Markdown'
-        })
+      const programSel = document.getElementById('program');
+      const programLabel = programSel.options[programSel.selectedIndex].text;
+
+      CNTelegram.sendMessage({
+        icon: '📅',
+        title: 'NEW TOUR BOOKING REQUEST',
+        source: 'Website – Schedule a Tour',
+        sections: [
+          { icon: '👤', title: 'Visitor', rows: [['Name', firstName + ' ' + lastName], ['Email', email], ['Phone', phone]] },
+          { icon: '🗓', title: 'Tour', rows: [['Programme', programLabel], ['Date', tourDate], ['Time', tourTime]] },
+          { icon: '💬', title: 'Questions / comments', rows: [['Comments', comments]] }
+        ]
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.ok) {
-          // Show success modal
-          showModal(true);
-          // Reset form
-          form.reset();
-          // Reset booking steps
-          selectedDate = null;
-          selectedTime = null;
-          document.getElementById('toStep2').disabled = true;
-          document.getElementById('toStep3').disabled = true;
-          // Reset step indicators
-          document.querySelectorAll('.step-dot').forEach(el => el.classList.remove('active', 'done'));
-          document.getElementById('dot1').classList.add('active');
-          showStep(1);
-          renderCalendar();
-        } else {
-          showModal(false, 'There was an error submitting your request. Please try again later.');
-        }
+      .then(() => {
+        showModal(true);
+        form.reset();
+        selectedDate = null;
+        selectedTime = null;
+        document.getElementById('toStep2').disabled = true;
+        document.getElementById('toStep3').disabled = true;
+        document.querySelectorAll('.step-dot').forEach(el => el.classList.remove('active', 'done'));
+        document.getElementById('dot1').classList.add('active');
+        showStep(1);
+        renderCalendar();
       })
       .catch(error => {
         showModal(false, 'There was an error submitting your request. Please try again later or contact us directly.');
@@ -799,6 +789,7 @@
         submitBtn.disabled = false;
       });
     });
+
 
     // ===== INIT =====
     renderCalendar();
