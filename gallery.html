@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Photos and moments from Christ Nation Group of Schools — students, teachers, projects, events, sports and campus life." />
+  <meta name="description" content="Photos and moments from Christ Nation Group of Schools — sports, activities and campus life." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery – Christ Nation Group of Schools</title>
 
@@ -106,7 +106,7 @@
     .sec-head p{margin:15px 0 0;opacity:.78}
     .center{margin-left:auto;margin-right:auto;text-align:center}
 
-    /* ===== INTRODUCTION ===== */
+    /* ===== INTRO ===== */
     .intro-section{background:var(--white);padding:80px 0}
     .intro-section .wrap{max-width:900px;margin:0 auto;text-align:center}
     .intro-section .kicker{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--brass);font-weight:500}
@@ -114,7 +114,7 @@
     .intro-section .lead{font-family:'Zilla Slab',serif;font-size:22px;color:var(--green);margin-bottom:20px}
     .intro-section p{opacity:.8;max-width:70ch;margin:0 auto 16px}
 
-    /* ===== PROGRAMME CARDS (Vertical Layout) ===== */
+    /* ===== PROGRAMME CARDS ===== */
     .programmes-list{display:flex;flex-direction:column;gap:40px;margin-top:20px}
     .programme-card{background:var(--white);border:1px solid var(--rule);border-radius:16px;overflow:hidden;transition:.3s;box-shadow:0 2px 10px rgba(0,0,0,.04)}
     .programme-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
@@ -150,8 +150,8 @@
     .foot-grid a:hover{color:var(--brass)}
     .foot-bottom{padding-top:24px;font-size:13px;opacity:.6;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
     @media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr}}
-  
-    /* ===== FIXES: header spacing, photo slots, avatars ===== */
+
+    /* ===== FIXES ===== */
     .crest span{display:flex;flex-direction:column;gap:3px;min-width:0}
     .crest b{line-height:1.1;white-space:nowrap}
     .crest i{display:block;line-height:1.1;white-space:nowrap}
@@ -171,7 +171,7 @@
     .lead-card .avatar{position:relative;overflow:hidden;flex:none}
     .lead-card .avatar>i{font-size:34px;color:rgba(247,245,239,.35)}
     .lead-card .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;border-radius:50%}
-  
+
     /* ===== GALLERY PAGE ===== */
     .gal-section{background:var(--chalk);padding:70px 0 90px}
     .gal-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 0 40px}
@@ -312,7 +312,7 @@
     <div class="wrap">
       <p class="eyebrow"><i class="fa-regular fa-image"></i> Gallery</p>
       <h1>Moments at <em>Christ Nation</em></h1>
-      <p class="lede">Students, teachers, projects, events and everyday life across our four campuses — see the Christ Nation family in action.</p>
+      <p class="lede">Sports, activities and everyday campus life across our school — see the Christ Nation family in action.</p>
       <a class="btn btn-gold" href="#gallery"><i class="fa-solid fa-arrow-down"></i> Browse the Gallery</a>
     </div>
   </div>
@@ -322,7 +322,7 @@
     <div class="wrap">
       <div class="sec-head center">
         <h2>Our <span style="color:var(--brass);">Moments</span> Together</h2>
-        <p>Tap any photo to view it larger. Use the filters to jump to students, teachers, projects, events and more.</p>
+        <p>Tap any photo to view it larger. Use the filters to jump to sports, activities or the school compound.</p>
       </div>
       <div class="gal-filters" id="galFilters"></div>
       <div class="gal-count" id="galCount"></div>
@@ -375,75 +375,37 @@
       </div>
       <div class="foot-bottom">
         <span>© 2026 Christ Nation Group of Schools</span>
-        </div>
+      </div>
     </div>
   </footer>
 
   <!-- ===== GALLERY SCRIPT ===== -->
   <script>
     /* ==========================================================
-       HOW TO ADD / CHANGE PHOTOS
-       - Each photo is ONE line inside PHOTOS below.
-       - Replace the fake link in  src  with your real image link.
-       - cat must match one of the ids in CATEGORIES
-         (students, teachers, projects, events, sports, arts, campus, graduation).
-       - Add a new line to add a photo; delete a line to remove one.
-       Photos whose link does not load show a neat placeholder tile.
+       GALLERY DATA
+       Sessions: sports, activities, compound
+       Replace src links with your real image links.
        ========================================================== */
     const CATEGORIES = [
       {"id":"all","label":"All","icon":"fa-images"},
-      {"id": "students", "label": "Students", "icon": "fa-child"},
-      {"id": "teachers", "label": "Teachers & Staff", "icon": "fa-chalkboard-user"},
-      {"id": "projects", "label": "Projects", "icon": "fa-flask"},
-      {"id": "events", "label": "Events", "icon": "fa-calendar-check"},
       {"id": "sports", "label": "Sports", "icon": "fa-futbol"},
-      {"id": "arts", "label": "Music & Arts", "icon": "fa-palette"},
-      {"id": "campus", "label": "Campus", "icon": "fa-school"},
-      {"id": "graduation", "label": "Graduation", "icon": "fa-user-graduate"}
+      {"id": "activities", "label": "Activities", "icon": "fa-calendar-check"},
+      {"id": "compound", "label": "School Compound", "icon": "fa-school"}
     ];
 
     const PHOTOS = [
-      {"src": "https://example.com/gallery/students-01.jpg", "title": "Pupils in the Classroom", "cat": "students", "desc": "Young learners engaged in a lesson."},
-      {"src": "https://example.com/gallery/students-02.jpg", "title": "Nursery Pupils at Play", "cat": "students", "desc": "Learning through play in our nursery."},
-      {"src": "https://example.com/gallery/students-03.jpg", "title": "Primary Pupils Reading", "cat": "students", "desc": "Building strong reading habits early."},
-      {"src": "https://example.com/gallery/students-04.jpg", "title": "College Students in Class", "cat": "students", "desc": "Senior students focused on their studies."},
-      {"src": "https://example.com/gallery/students-05.jpg", "title": "Student Government Members", "cat": "students", "desc": "Our student leaders serving their peers."},
-      {"src": "https://example.com/gallery/students-06.jpg", "title": "Morning Assembly", "cat": "students", "desc": "Starting each day together in prayer and song."},
-      {"src": "https://example.com/gallery/teachers-01.jpg", "title": "Our Teaching Staff", "cat": "teachers", "desc": "The dedicated educators behind every success story."},
-      {"src": "https://example.com/gallery/teachers-02.jpg", "title": "Nursery Teachers", "cat": "teachers", "desc": "Caring guides for our youngest pupils."},
-      {"src": "https://example.com/gallery/teachers-03.jpg", "title": "Primary Teachers", "cat": "teachers", "desc": "Building strong foundations every day."},
-      {"src": "https://example.com/gallery/teachers-04.jpg", "title": "College Teachers", "cat": "teachers", "desc": "Preparing students for WAEC, NECO and beyond."},
-      {"src": "https://example.com/gallery/teachers-05.jpg", "title": "Heads of School Together", "cat": "teachers", "desc": "School leadership united in purpose."},
-      {"src": "https://example.com/gallery/teachers-06.jpg", "title": "Staff Training Day", "cat": "teachers", "desc": "Our teachers learning and growing together."},
-      {"src": "https://example.com/gallery/projects-01.jpg", "title": "Science Fair Projects", "cat": "projects", "desc": "Pupils presenting hands-on science experiments."},
-      {"src": "https://example.com/gallery/projects-02.jpg", "title": "STEAM Showcase", "cat": "projects", "desc": "Creative projects blending science, tech and art."},
-      {"src": "https://example.com/gallery/projects-03.jpg", "title": "ICT & Robotics Project", "cat": "projects", "desc": "Students exploring technology and coding."},
-      {"src": "https://example.com/gallery/projects-04.jpg", "title": "Art & Craft Exhibition", "cat": "projects", "desc": "Original artwork made by our students."},
-      {"src": "https://example.com/gallery/projects-05.jpg", "title": "School Garden Project", "cat": "projects", "desc": "Learning about plants and farming first-hand."},
-      {"src": "https://example.com/gallery/projects-06.jpg", "title": "Vocational Skills Projects", "cat": "projects", "desc": "Practical skills in action: cooking, crafts and more."},
-      {"src": "https://example.com/gallery/events-01.jpg", "title": "Parents' Day", "cat": "events", "desc": "Families celebrating our students' progress."},
-      {"src": "https://example.com/gallery/events-02.jpg", "title": "Prize-Giving Ceremony", "cat": "events", "desc": "Recognising outstanding achievement."},
-      {"src": "https://example.com/gallery/events-03.jpg", "title": "Thanksgiving Service", "cat": "events", "desc": "Giving thanks together as one school family."},
-      {"src": "https://example.com/gallery/events-04.jpg", "title": "Open Day", "cat": "events", "desc": "Visitors discovering life at Christ Nation."},
-      {"src": "https://example.com/gallery/events-05.jpg", "title": "Cultural Day", "cat": "events", "desc": "Celebrating our rich Nigerian heritage."},
-      {"src": "https://example.com/gallery/events-06.jpg", "title": "Career Day", "cat": "events", "desc": "Students meeting professionals and exploring futures."},
-      {"src": "https://example.com/gallery/sports-01.jpg", "title": "Inter-House Sports", "cat": "sports", "desc": "Friendly competition and team spirit."},
-      {"src": "https://example.com/gallery/sports-02.jpg", "title": "Football Match", "cat": "sports", "desc": "Students showing teamwork on the pitch."},
-      {"src": "https://example.com/gallery/sports-03.jpg", "title": "Athletics Track Events", "cat": "sports", "desc": "Racing for glory on sports day."},
-      {"src": "https://example.com/gallery/sports-04.jpg", "title": "March Past", "cat": "sports", "desc": "Houses on parade in their colours."},
-      {"src": "https://example.com/gallery/arts-01.jpg", "title": "Music & Drama", "cat": "arts", "desc": "Students performing on stage."},
-      {"src": "https://example.com/gallery/arts-02.jpg", "title": "Choir Performance", "cat": "arts", "desc": "Voices raised in harmony."},
-      {"src": "https://example.com/gallery/arts-03.jpg", "title": "Dance Performance", "cat": "arts", "desc": "Creative expression through movement."},
-      {"src": "https://example.com/gallery/arts-04.jpg", "title": "Art Class", "cat": "arts", "desc": "Young artists at work."},
-      {"src": "https://example.com/gallery/campus-01.jpg", "title": "School Gate & Front View", "cat": "campus", "desc": "Welcome to Christ Nation."},
-      {"src": "https://example.com/gallery/campus-02.jpg", "title": "Bright Classrooms", "cat": "campus", "desc": "Safe, comfortable spaces for learning."},
-      {"src": "https://example.com/gallery/campus-03.jpg", "title": "Library", "cat": "campus", "desc": "A quiet place to read and discover."},
-      {"src": "https://example.com/gallery/campus-04.jpg", "title": "ICT Laboratory", "cat": "campus", "desc": "Computers and technology for modern learning."},
-      {"src": "https://example.com/gallery/campus-05.jpg", "title": "Science Laboratory", "cat": "campus", "desc": "Where curiosity meets experiments."},
-      {"src": "https://example.com/gallery/campus-06.jpg", "title": "Playground", "cat": "campus", "desc": "Safe outdoor space for play and exercise."},
-      {"src": "https://example.com/gallery/graduation-01.jpg", "title": "Nursery Graduation", "cat": "graduation", "desc": "Little graduates ready for the next step."},
-      {"src": "https://example.com/gallery/graduation-02.jpg", "title": "Primary Graduation", "cat": "graduation", "desc": "Moving on to secondary school with pride."},
-      {"src": "https://example.com/gallery/graduation-03.jpg", "title": "College Graduation", "cat": "graduation", "desc": "Our graduating class celebrating together."}
+      {"src": "https://files.catbox.moe/ai1ot2.jpg", "title": "Inter-House Sports", "cat": "sports", "desc": "Students competing in the inter-house sports competition."},
+      {"src": "https://files.catbox.moe/1dzk10.jpg", "title": "Football Match", "cat": "sports", "desc": "Students showing teamwork on the football pitch."},
+      {"src": "https://files.catbox.moe/d5uvcb.jpg", "title": "Athletics Track Events", "cat": "sports", "desc": "Racing for glory during sports day."},
+      {"src": "https://files.catbox.moe/f2mtkq.jpg", "title": "March Past", "cat": "sports", "desc": "Houses on parade in their colours."},
+      {"src": "https://files.catbox.moe/9a61h8.jpg", "title": "Parents' Day", "cat": "activities", "desc": "Families celebrating our students' progress."},
+      {"src": "https://files.catbox.moe/bcw636.jpg", "title": "Cultural Day", "cat": "activities", "desc": "Celebrating our rich Nigerian heritage."},
+      {"src": "https://files.catbox.moe/pfhryy.jpg", "title": "Career Day", "cat": "activities", "desc": "Students meeting professionals and exploring futures."},
+      {"src": "https://files.catbox.moe/58goyX.jpg", "title": "School Assembly", "cat": "activities", "desc": "Starting the day together as one school family."},
+      {"src": "https://files.catbox.moe/yv2am6.jpg", "title": "School Gate & Front View", "cat": "compound", "desc": "Welcome to Christ Nation."},
+      {"src": "https://files.catbox.moe/my1fga.jpg", "title": "Bright Classrooms", "cat": "compound", "desc": "Safe, comfortable spaces for learning."},
+      {"src": "https://files.catbox.moe/96d9km.jpg", "title": "Library", "cat": "compound", "desc": "A quiet place to read and discover."},
+      {"src": "https://files.catbox.moe/in15gj.jpg", "title": "Playground", "cat": "compound", "desc": "Safe outdoor space for play and exercise."}
     ];
 
     const grid = document.getElementById('galGrid');
